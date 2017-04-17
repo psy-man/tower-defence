@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "sourceRoot": "",
+    "sourceMap": false,
+    "inlineSourceMap": true,
+    "target": "es6",
+    "baseUrl": "",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings/index.d.ts"
+    ],
+    "lib": ["es2017", "dom"],
+    "types": [
+      "node"
+    ]
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useWebpackText": true,
+    "forkChecker": true,
+    "useCache": true
+  },
+  "exclude": [
+    "dist/**/*",
+    "node_modules/**/*",
+    "tmp/**/*"
+  ]
+}

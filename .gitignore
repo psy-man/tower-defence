@@ -1,0 +1,17 @@
+node_modules/
+npm-debug.log*
+
+# IDEs
+.idea
+
+# Typings file.
+typings/
+
+# Misc
+tmp/
+
+# Mac OSX Finder files.
+**/.DS_Store
+.DS_Store
+
+.awcache
