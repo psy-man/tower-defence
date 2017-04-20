@@ -9,25 +9,45 @@ export class GameObject {
   }
 
   setPosition(x: number, y: number) {
-    this.getMesh().position.x = x;
-    this.getMesh().position.y = y;
+    this.getMesh().x = x;
+    this.getMesh().y = y;
 
     return this;
+  }
+
+  hide() {
+    this.getMesh().alpha = 0;
   }
 
   get rotation() {
     return this.getMesh().rotation;
   }
 
+  set rotation(angle: number) {
+    this.getMesh().rotation = angle;
+  }
+
   get position() {
     return this.getMesh().position;
   }
 
-  get positionX() {
-    return this.position.x;
+  get width() {
+    return this.getMesh().width;
   }
 
-  get positionY() {
-    return this.position.y;
+  get height() {
+    return this.getMesh().height;
+  }
+
+  get x() {
+    return this.getMesh().x;
+  }
+
+  get y() {
+    return this.getMesh().y;
+  }
+
+  get alpha() {
+    return this.getMesh().alpha;
   }
 }

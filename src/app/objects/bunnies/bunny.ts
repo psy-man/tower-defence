@@ -1,5 +1,5 @@
 import { Point, Texture, Sprite } from "pixi.js";
-import { GameObject } from '../core/object';
+import { GameObject } from '../../core/object';
 import { Cannon } from '../cannons/cannon';
 
 
@@ -10,7 +10,7 @@ export class Bunny extends GameObject {
 
   public angle = Math.PI;
 
-  protected textures: Texture = Texture.fromImage(require('./../../assets/images/bunnys.png'));
+  protected textures: Texture = Texture.fromImage(require('./../../../assets/images/bunnys.png'));
 
   constructor(public posX: number, public posY: number) {
     super();
@@ -34,7 +34,7 @@ export class Bunny extends GameObject {
     this.health -= cannon.damage;
 
     if (this.health <= 0) {
-      this.getMesh().alpha = 0;
+      this.hide();
     }
   }
 }

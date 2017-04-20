@@ -6,15 +6,15 @@ import {
   Point
 } from "pixi.js";
 
-import { RobotBunny } from './bunnies/robot-bunny';
-import { SimpleCannon } from './cannons/simple-cannon';
-import { Bunny } from './bunnies/bunny';
-import { Cannon } from './cannons/cannon';
+import { RobotBunny } from './objects/bunnies/robot-bunny';
+import { SimpleCannon } from './objects/cannons/simple-cannon';
+import { Bunny } from './objects/bunnies/bunny';
+import { Cannon } from './objects/cannons/cannon';
 
 import { getDistance, getTargetAngle } from './core/helpers';
-import { Carrot } from './cannons/carrot';
-import { SpaceBunny } from './bunnies/space-bunny';
-import { SimpleBunny } from './bunnies/simple-bunny';
+import { Carrot } from './objects/carrot';
+import { SpaceBunny } from './objects/bunnies/space-bunny';
+import { SimpleBunny } from './objects/bunnies/simple-bunny';
 
 
 export default class App {
@@ -25,7 +25,6 @@ export default class App {
 
   private bunnies: Bunny[] = [];
   private cannons: Cannon[] = [];
-  private carrots: Carrot[] = [];
 
   constructor() {
   }
@@ -41,17 +40,24 @@ export default class App {
     this.createScene();
     this.initEvents();
 
-    const bunny = new SpaceBunny(200, 30);
+    const bunny = new SpaceBunny(300, 30);
     this.addBunny(bunny);
 
-    const bunny1 = new SimpleBunny(100, 30);
+    const bunny1 = new SimpleBunny(50, 30);
     this.addBunny(bunny1);
 
-    const bunny2 = new RobotBunny(150, 30);
+    const bunny2 = new RobotBunny(120, 30);
     this.addBunny(bunny2);
 
-    const cannon = new SimpleCannon(400, 300);
+
+    const cannon = new SimpleCannon(400, 130);
     this.addCannon(cannon);
+
+    const cannon1 = new SimpleCannon(200, 350);
+    this.addCannon(cannon1);
+
+    const cannon2 = new SimpleCannon(600, 350);
+    this.addCannon(cannon2);
 
     this.render();
   }
@@ -62,18 +68,22 @@ export default class App {
     });
 
     this.bunnies.forEach(b => b.move());
-    this.bunnies = this.bunnies.filter(b => b.getMesh().alpha > 0);
+    this.bunnies = this.bunnies.filter(b => b.alpha > 0);
 
-    this.carrots.forEach(c => c.move());
-    this.carrots = this.carrots.filter(c => c.getMesh().alpha > 0);
+    for (const cannon of this.cannons) {
+      let closest = null;
+      let target: Bunny = null;
 
-    if (this.bunnies.length) {
-      for (const cannon of this.cannons) {
-        let closest = null;
-        let target: Bunny = null;
+      cannon.carrots.forEach(c => c.move());
+      cannon.carrots = cannon.carrots.filter(c => c.alpha > 0);
 
+      if (this.bunnies.length) {
         for (let bunny of this.bunnies) {
           const distance = getDistance(cannon.position, bunny.position);
+
+          if (distance > cannon.range + bunny.width) {
+            continue;
+          }
 
           if (!closest || distance < closest) {
             closest = distance;
@@ -81,11 +91,14 @@ export default class App {
           }
         }
 
-        cannon.getMesh().rotation = getTargetAngle(cannon.position, target.position);
+        if (target) {
+          cannon.rotation = getTargetAngle(cannon, target);
 
-        if (this.carrots.length < 1) {
-          const carrot = new Carrot(cannon, target);
-          this.addCarrot(carrot);
+          if (cannon.carrots.length < 1) {
+            const carrot = new Carrot(cannon, target);
+            cannon.addCarrot(carrot);
+            this.app.stage.addChild(carrot.getMesh());
+          }
         }
       }
     }
@@ -99,11 +112,6 @@ export default class App {
   private addCannon(cannon: Cannon) {
     this.cannons.push(cannon);
     this.app.stage.addChild(cannon.getMesh());
-  }
-
-  private addCarrot(carrot: Carrot) {
-    this.carrots.push(carrot);
-    this.app.stage.addChild(carrot.getMesh());
   }
 
   private createScene() {

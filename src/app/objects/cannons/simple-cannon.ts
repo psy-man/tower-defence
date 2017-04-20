@@ -18,11 +18,16 @@ export class SimpleCannon extends Cannon {
 
     const line = new Graphics();
     line.lineStyle(4, 0xFFFFFF, 1);
-    line.moveTo(0, 0);
-    line.lineTo(25, 0);
+    line.moveTo(0, 1);
+    line.lineTo(25, 1);
+
+    const radius = new Graphics();
+    radius.lineStyle (1, 0xFFFFFF, 0.1);
+    radius.drawCircle(0, 0, this.range);
 
     cannon.addChild(circle);
     cannon.addChild(line);
+    cannon.addChild(radius);
 
     this.setMesh(cannon).setPosition(posX, posY);
   }
