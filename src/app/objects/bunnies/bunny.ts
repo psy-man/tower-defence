@@ -18,16 +18,43 @@ export class Bunny extends GameObject {
 
   setMesh(sprite: Texture) {
     this.mesh = new Sprite(sprite);
-    this.mesh.scale.set(0.7, 0.7);
+    this.mesh.interactive = true;
+    // this.mesh.scale.set(0.7, 0.7);
+
+    function onDragStart(event) {
+      this.data = event.data;
+      this.dragging = true;
+      console.log(this.data);
+    }
+
+    function onDragEnd(event) {
+      this.dragging = false;
+      console.log(this.position);
+    }
+
+    function onDragMove(event) {
+      if (this.dragging)
+      {
+        const newPosition = this.data.getLocalPosition(this.parent);
+        this.position.x = newPosition.x - this.width / 2;
+        this.position.y = newPosition.y - this.height / 2;
+      }
+    }
+
+    this.mesh
+      .on('mousedown', onDragStart)
+      .on('mouseup', onDragEnd)
+      .on('mouseupoutside', onDragEnd)
+      .on('mousemove', onDragMove);
 
     return this;
   }
 
   move() {
-    this.angle += 0.005;
-
-    this.getMesh().position.x = 400 + Math.cos(this.angle) * this.posX;
-    this.getMesh().position.y = 300 + Math.sin(this.angle) * this.posX;
+    // this.angle += 0.01;
+    //
+    // this.getMesh().position.x = 400 + Math.cos(this.angle) * this.posX;
+    // this.getMesh().position.y = 300 + Math.sin(this.angle) * this.posX;
   }
 
   hit(cannon: Cannon) {

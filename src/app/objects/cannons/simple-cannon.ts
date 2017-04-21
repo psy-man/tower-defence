@@ -3,7 +3,7 @@ import { Cannon } from './cannon';
 
 export class SimpleCannon extends Cannon {
 
-  public range: number = 120;
+  public range: number = 200;
   public speed: number = 1.2;
 
   constructor(public posX: number, public posY: number) {
@@ -13,7 +13,7 @@ export class SimpleCannon extends Cannon {
 
     const circle = new Graphics();
     circle.beginFill(0x9966FF);
-    circle.drawCircle(0, 0, 16);
+    circle.drawCircle(0, 0, this.radius);
     circle.endFill();
 
     const line = new Graphics();

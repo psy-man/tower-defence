@@ -1,4 +1,4 @@
-import { Point, Texture, Sprite } from "pixi.js";
+import { Point, Texture, Rectangle, Sprite, Graphics, Container } from "pixi.js";
 import { GameObject } from '../../core/object';
 import { Carrot } from '../carrot';
 
@@ -6,14 +6,17 @@ import { Carrot } from '../carrot';
 
 export class Cannon extends GameObject {
 
-  public range: number = 100;
+  public range: number = 10;
   public speed: number = 1;
+
   public damage: number = 1;
+  public radius: number = 16;
 
   public carrots: Carrot[] = [];
 
   constructor(public posX: number, public posY: number) {
     super();
+
   }
 
   setMesh(sprite) {

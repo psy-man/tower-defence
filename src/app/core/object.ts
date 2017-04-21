@@ -39,6 +39,21 @@ export class GameObject {
     return this.getMesh().height;
   }
 
+  get centerX() {
+    return this.x + this.width / 2;
+  }
+
+  get centerY() {
+    return this.y + this.height / 2;
+  }
+
+  get center() {
+    return {
+      x: this.centerX,
+      y: this.centerY
+    }
+  }
+
   get x() {
     return this.getMesh().x;
   }

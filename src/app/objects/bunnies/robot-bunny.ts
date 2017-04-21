@@ -4,7 +4,7 @@ import { Bunny } from './bunny';
 
 export class RobotBunny extends Bunny {
 
-  public health: number = 150;
+  public health: number = 1500;
   public speed: number = 1.2;
 
   constructor(public posX: number, public posY: number) {
