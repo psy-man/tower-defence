@@ -59,9 +59,9 @@ export default class App {
     const cannon2 = new SimpleCannon(600, 350);
     this.addCannon(cannon2);
 
-    const carrot = new Carrot(cannon2, bunny2);
-    cannon2.addCarrot(carrot);
-    this.app.stage.addChild(carrot.getMesh());
+    // const carrot = new Carrot(cannon2, bunny2);
+    // cannon2.addCarrot(carrot);
+    // this.app.stage.addChild(carrot.getMesh());
 
 
     this.render();
@@ -72,53 +72,55 @@ export default class App {
       this.render();
     });
 
-    this.cannons[0].rotation = getTargetAngle(this.cannons[0], this.bunnies[0]);
-    this.cannons[0].carrots[0].rotation = getTargetAngle(this.cannons[0], this.bunnies[0]);
+    // this.cannons[0].rotation = getTargetAngle(this.cannons[0], this.bunnies[0]);
+    // this.cannons[0].carrots[0].rotation = getTargetAngle(this.cannons[0], this.bunnies[0]);
+    //
+    // const d = 0.05;
+    //
+    // this.cannons[0].carrots[0].setPosition(
+    //   this.cannons[0].x + Math.cos(this.cannons[0].rotation - d) * 30,
+    //   this.cannons[0].y + Math.sin(this.cannons[0].rotation - d) * 30
+    // );
 
-    this.cannons[0].carrots[0].setPosition(
-      this.cannons[0].x + Math.cos(this.cannons[0].rotation) * 30,
-      this.cannons[0].y + Math.sin(this.cannons[0].rotation) * 30
-    );
+    this.bunnies.forEach(b => b.move());
+    this.bunnies = this.bunnies.filter(b => b.alpha > 0);
 
-    // this.bunnies.forEach(b => b.move());
-    // this.bunnies = this.bunnies.filter(b => b.alpha > 0);
-    //
-    // for (const cannon of this.cannons) {
-    //   let closest = null;
-    //   let target: Bunny = null;
-    //
-    //   cannon.carrots.forEach(c => c.move());
-    //   cannon.carrots = cannon.carrots.filter(c => c.alpha > 0);
-    //
-    //   if (this.bunnies.length) {
-    //     for (let bunny of this.bunnies) {
-    //       const distance = getDistance(cannon, bunny);
-    //
-    //       // console.log(this.cannons.indexOf(cannon), distance);
-    //       // console.log(distance);
-    //
-    //
-    //       if (distance > cannon.range) {
-    //         continue;
-    //       }
-    //
-    //       if (!closest || distance < closest) {
-    //         closest = distance;
-    //         target = bunny;
-    //       }
-    //     }
-    //
-    //     if (target) {
-    //       cannon.rotation = getTargetAngle(cannon, target);
-    //
-    //       if (cannon.carrots.length < 1) {
-    //         const carrot = new Carrot(cannon, target);
-    //         cannon.addCarrot(carrot);
-    //         this.app.stage.addChild(carrot.getMesh());
-    //       }
-    //     }
-    //   }
-    // }
+    for (const cannon of this.cannons) {
+      let closest = null;
+      let target: Bunny = null;
+
+      cannon.carrots.forEach(c => c.move());
+      cannon.carrots = cannon.carrots.filter(c => c.alpha > 0);
+
+      if (this.bunnies.length) {
+        for (let bunny of this.bunnies) {
+          const distance = getDistance(cannon, bunny);
+
+          // console.log(this.cannons.indexOf(cannon), distance);
+          // console.log(distance);
+
+
+          if (distance > cannon.range) {
+            continue;
+          }
+
+          if (!closest || distance < closest) {
+            closest = distance;
+            target = bunny;
+          }
+        }
+
+        if (target) {
+          cannon.rotation = getTargetAngle(cannon, target);
+
+          if (cannon.carrots.length < 1) {
+            const carrot = new Carrot(cannon, target);
+            cannon.addCarrot(carrot);
+            this.app.stage.addChild(carrot.getMesh());
+          }
+        }
+      }
+    }
   }
 
   private addBunny(bunny: Bunny) {

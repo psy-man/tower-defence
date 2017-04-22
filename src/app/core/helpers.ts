@@ -2,9 +2,10 @@ import { Point } from "pixi.js";
 import { GameObject } from './object';
 
 export function getDistance(cannon: GameObject, target: GameObject) {
-  return Math.sqrt(
-    Math.pow(target.centerX - cannon.x, 2) + Math.pow(target.centerY - cannon.y, 2)
-  );
+  const dx = Math.pow(target.centerX - cannon.x, 2);
+  const dy = Math.pow(target.centerY - cannon.y, 2);
+
+  return Math.sqrt(dx + dy);
 }
 
 export function getTargetAngle(cannon: GameObject, target: GameObject) {
@@ -16,11 +17,11 @@ export function getTargetAngle(cannon: GameObject, target: GameObject) {
 
 // Minkowski addition
 export function hitTest(A, B) {
-  const w = 0.5 * (A.width + B.width);
-  const h = 0.5 * (A.height + B.height);
+  const w = 0.6 * (A.width + B.width);
+  const h = 0.6 * (A.height + B.height);
 
-  const dx = A.centerX - B.centerX;
-  const dy = A.centerY - B.centerY;
+  const dx = A.x - B.centerX;
+  const dy = A.y - B.centerY;
 
   return Math.abs(dx) <= w && Math.abs(dy) <= h;
 }

@@ -24,7 +24,6 @@ export class Bunny extends GameObject {
     function onDragStart(event) {
       this.data = event.data;
       this.dragging = true;
-      console.log(this.data);
     }
 
     function onDragEnd(event) {
@@ -33,9 +32,9 @@ export class Bunny extends GameObject {
     }
 
     function onDragMove(event) {
-      if (this.dragging)
-      {
+      if (this.dragging) {
         const newPosition = this.data.getLocalPosition(this.parent);
+
         this.position.x = newPosition.x - this.width / 2;
         this.position.y = newPosition.y - this.height / 2;
       }

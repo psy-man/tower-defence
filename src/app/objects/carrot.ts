@@ -9,6 +9,12 @@ export class Carrot extends GameObject {
   public range: number = 100;
   public speed: number = 2;
 
+  public initialWidth: number = 20;
+  public initialHeight: number = 6;
+
+  public angleCorrection: number = - 0.1;
+  public distanceFromCannon: number = 30;
+
 
   constructor(public cannon: Cannon, public target: Bunny) {
     super();
@@ -21,19 +27,18 @@ export class Carrot extends GameObject {
 
     // this.mesh.scale.set(0.5, 0.5);
 
-    // this.mesh.width = 17;
-    // this.mesh.height = 6;
+    this.mesh.width = this.initialWidth;
+    this.mesh.height = this.initialHeight;
 
     this.setPosition(
-      cannon.x + Math.cos(cannon.rotation) * 30,
-      cannon.y + Math.sin(cannon.rotation) * 30
+      cannon.x + Math.cos(cannon.rotation + this.angleCorrection) * this.distanceFromCannon,
+      cannon.y + Math.sin(cannon.rotation + this.angleCorrection) * this.distanceFromCannon
     );
 
 
     function onDragStart(event) {
       this.data = event.data;
       this.dragging = true;
-      console.log(this.data);
     }
 
     function onDragEnd(event) {
@@ -42,9 +47,9 @@ export class Carrot extends GameObject {
     }
 
     function onDragMove(event) {
-      if (this.dragging)
-      {
+      if (this.dragging) {
         const newPosition = this.data.getLocalPosition(this.parent);
+
         this.position.x = newPosition.x - this.width / 2;
         this.position.y = newPosition.y - this.height / 2;
       }
@@ -63,7 +68,7 @@ export class Carrot extends GameObject {
     this.getMesh().position.x += Math.cos(this.getMesh().rotation) * this.speed;
     this.getMesh().position.y += Math.sin(this.getMesh().rotation) * this.speed;
 
-    if (hitTest(this.getMesh(), this.target.getMesh())) {
+    if (hitTest(this, this.target)) {
       this.target.hit(this.cannon);
       this.hide();
     }
