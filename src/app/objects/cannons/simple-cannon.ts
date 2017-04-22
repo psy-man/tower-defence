@@ -4,10 +4,15 @@ import { Cannon } from './cannon';
 export class SimpleCannon extends Cannon {
 
   public range: number = 200;
-  public speed: number = 1.2;
 
-  constructor(public posX: number, public posY: number) {
-    super(posX, posY);
+  public shotsPerSecond: number = 3;
+  public speed: number = 5;
+
+  public damage: number = 1;
+  public radius: number = 16;
+
+  constructor(public stage: Container, public posX: number, public posY: number) {
+    super(stage, posX, posY);
 
     const cannon = new Container();
 
@@ -29,6 +34,6 @@ export class SimpleCannon extends Cannon {
     cannon.addChild(line);
     cannon.addChild(radius);
 
-    this.setMesh(cannon).setPosition(posX, posY);
+    this.setMesh(cannon);
   }
 }

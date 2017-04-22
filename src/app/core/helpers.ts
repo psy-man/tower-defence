@@ -17,8 +17,8 @@ export function getTargetAngle(cannon: GameObject, target: GameObject) {
 
 // Minkowski addition
 export function hitTest(A, B) {
-  const w = 0.6 * (A.width + B.width);
-  const h = 0.6 * (A.height + B.height);
+  const w = 0.8 * (A.width + B.width);
+  const h = 0.8 * (A.height + B.height);
 
   const dx = A.x - B.centerX;
   const dy = A.y - B.centerY;

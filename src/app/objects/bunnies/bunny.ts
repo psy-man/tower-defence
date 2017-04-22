@@ -1,4 +1,4 @@
-import { Point, Texture, Sprite } from "pixi.js";
+import { Point, Texture, Sprite, Rectangle } from "pixi.js";
 import { GameObject } from '../../core/object';
 import { Cannon } from '../cannons/cannon';
 
@@ -16,44 +16,23 @@ export class Bunny extends GameObject {
     super();
   }
 
-  setMesh(sprite: Texture) {
-    this.mesh = new Sprite(sprite);
-    this.mesh.interactive = true;
+  setMesh(position: Rectangle) {
+    const texture = new Texture(this.textures.baseTexture, position);
+
+    this.mesh = new Sprite(texture);
+
+    this.x = this.posX;
+    this.y = this.posY;
     // this.mesh.scale.set(0.7, 0.7);
 
-    function onDragStart(event) {
-      this.data = event.data;
-      this.dragging = true;
-    }
-
-    function onDragEnd(event) {
-      this.dragging = false;
-      console.log(this.position);
-    }
-
-    function onDragMove(event) {
-      if (this.dragging) {
-        const newPosition = this.data.getLocalPosition(this.parent);
-
-        this.position.x = newPosition.x - this.width / 2;
-        this.position.y = newPosition.y - this.height / 2;
-      }
-    }
-
-    this.mesh
-      .on('mousedown', onDragStart)
-      .on('mouseup', onDragEnd)
-      .on('mouseupoutside', onDragEnd)
-      .on('mousemove', onDragMove);
-
-    return this;
+    // this.initDraggable();
   }
 
   move() {
-    // this.angle += 0.01;
-    //
-    // this.getMesh().position.x = 400 + Math.cos(this.angle) * this.posX;
-    // this.getMesh().position.y = 300 + Math.sin(this.angle) * this.posX;
+    this.angle += 0.01;
+
+    this.x = 400 + Math.cos(this.angle) * this.posX;
+    this.y = 300 + Math.sin(this.angle) * this.posX;
   }
 
   hit(cannon: Cannon) {

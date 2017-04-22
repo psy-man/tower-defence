@@ -6,9 +6,6 @@ import { Cannon } from './cannons/cannon';
 
 export class Carrot extends GameObject {
 
-  public range: number = 100;
-  public speed: number = 2;
-
   public initialWidth: number = 20;
   public initialHeight: number = 6;
 
@@ -23,50 +20,22 @@ export class Carrot extends GameObject {
 
     this.mesh = new Sprite(texture);
     this.mesh.rotation = cannon.rotation;
-    this.mesh.interactive = true;
-
     // this.mesh.scale.set(0.5, 0.5);
 
     this.mesh.width = this.initialWidth;
     this.mesh.height = this.initialHeight;
 
-    this.setPosition(
-      cannon.x + Math.cos(cannon.rotation + this.angleCorrection) * this.distanceFromCannon,
-      cannon.y + Math.sin(cannon.rotation + this.angleCorrection) * this.distanceFromCannon
-    );
+    this.x = cannon.x + Math.cos(cannon.rotation + this.angleCorrection) * this.distanceFromCannon;
+    this.y = cannon.y + Math.sin(cannon.rotation + this.angleCorrection) * this.distanceFromCannon;
 
-
-    function onDragStart(event) {
-      this.data = event.data;
-      this.dragging = true;
-    }
-
-    function onDragEnd(event) {
-      this.dragging = false;
-      console.log(this.position);
-    }
-
-    function onDragMove(event) {
-      if (this.dragging) {
-        const newPosition = this.data.getLocalPosition(this.parent);
-
-        this.position.x = newPosition.x - this.width / 2;
-        this.position.y = newPosition.y - this.height / 2;
-      }
-    }
-
-    this.mesh
-      .on('mousedown', onDragStart)
-      .on('mouseup', onDragEnd)
-      .on('mouseupoutside', onDragEnd)
-      .on('mousemove', onDragMove);
+    // this.initDraggable();
   }
 
   move() {
     this.getMesh().rotation = getTargetAngle(this, this.target);
 
-    this.getMesh().position.x += Math.cos(this.getMesh().rotation) * this.speed;
-    this.getMesh().position.y += Math.sin(this.getMesh().rotation) * this.speed;
+    this.x += Math.cos(this.rotation) * this.cannon.speed;
+    this.y += Math.sin(this.rotation) * this.cannon.speed;
 
     if (hitTest(this, this.target)) {
       this.target.hit(this.cannon);
