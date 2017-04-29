@@ -1,5 +1,6 @@
 import { Container, Texture } from 'pixi.js';
 
+
 export class Tileset {
   name: string;
   firstGID: number;
@@ -30,10 +31,8 @@ export class Tileset {
     this.spacing = data.spacing;
 
     for (let y = this.margin; y < this.imageHeight; y += this.tileHeight + this.spacing) {
-        for (let x = this.margin; x < this.imageWidth; x += this.tileWidth + this.spacing) {
-
+      for (let x = this.margin; x < this.imageWidth; x += this.tileWidth + this.spacing) {
         const t = texture.clone();
-
         const frame = t.frame;
 
         frame.width = this.tileWidth;

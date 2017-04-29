@@ -9,7 +9,7 @@ export class Carrot extends GameObject {
   public initialWidth: number = 20;
   public initialHeight: number = 6;
 
-  public angleCorrection: number = - 0.1;
+  public angleCorrection: number = -0.1;
   public distanceFromCannon: number = 30;
 
 

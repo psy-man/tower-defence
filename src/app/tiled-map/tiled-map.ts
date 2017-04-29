@@ -5,30 +5,31 @@ import { Tile } from './tile';
 
 export class TiledMap extends Container {
 
-  tilesets: Tileset[] = [];
-  layers: Layer[] = [];
+  private tilesets: Tileset[] = [];
+  private layers: Layer[] = [];
 
   constructor(public data) {
     super();
+
+    this.processTilesets();
+    this.processLayers();
   }
 
-  draw() {
-    console.log(this.data);
-
+  private processTilesets() {
     this.data.tilesets.forEach(tilesetData => {
       const texture = utils.TextureCache[tilesetData.name];
 
       if (!texture) {
-        console.log(tilesetData.name);
-        throw new Error('Texture does not exist');
+        throw new Error(`${tilesetData.name} texture does not exist`);
       }
 
       const tileset = new Tileset(tilesetData, texture);
       this.tilesets.push(tileset);
     });
+  }
 
-    this.data.layers
-      .forEach(layerData => {
+  private processLayers() {
+    this.data.layers.forEach(layerData => {
       const {name, opacity} = layerData;
       const layer = new Layer(name, opacity);
 
@@ -54,8 +55,6 @@ export class TiledMap extends Container {
 
       this.layers[layer.name] = layer;
       this.addChild(layer);
-
-      console.log(this.layers);
     });
   }
 

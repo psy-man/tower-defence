@@ -6,14 +6,14 @@ import {
   Point
 } from "pixi.js";
 
-import { Bunny } from './objects/bunnies/bunny';
-import { Cannon } from './objects/cannons/cannon';
-
 import { TiledMap } from './tiled-map/tiled-map';
+
+import { Bunny } from './objects/bunnies/bunny';
 import { SpaceBunny } from './objects/bunnies/space-bunny';
 import { RobotBunny } from './objects/bunnies/robot-bunny';
+
+import { Cannon } from './objects/cannons/cannon';
 import { SimpleCannon } from './objects/cannons/simple-cannon';
-import { Carrot } from './objects/carrot';
 
 
 export default class App {
@@ -50,8 +50,6 @@ export default class App {
     const mapData = require('../../src/assets/map/map.json');
 
     this.map = new TiledMap(mapData);
-    this.map.draw();
-
     this.app.stage.addChild(this.map);
 
 
@@ -73,10 +71,6 @@ export default class App {
 
     const cannon2 = new SimpleCannon(this.app.stage, 600, 350);
     this.addCannon(cannon2);
-
-    const carrot = new Carrot(cannon2, bunny2);
-    cannon2.addCarrot(carrot);
-    this.app.stage.addChild(carrot.getMesh());
 
     this.render();
   }
