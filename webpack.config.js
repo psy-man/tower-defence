@@ -24,11 +24,9 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
 
-  devtool: 'source-map',
+  devtool: 'source-tiled-map',
 
   module: {
-
-
     loaders: [
       {
         test: /\.tsx?$/,
@@ -54,6 +52,10 @@ module.exports = {
           'file-loader'
         ]
       },
+      {
+        test: /\.json$/,
+        use: 'json-loader'
+      }
     ],
   },
   plugins: [

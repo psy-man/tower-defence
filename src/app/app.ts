@@ -6,22 +6,22 @@ import {
   Point
 } from "pixi.js";
 
-import { RobotBunny } from './objects/bunnies/robot-bunny';
-import { SimpleCannon } from './objects/cannons/simple-cannon';
 import { Bunny } from './objects/bunnies/bunny';
 import { Cannon } from './objects/cannons/cannon';
 
-import { getDistance, getTargetAngle, hitTest } from './core/helpers';
-import { Carrot } from './objects/carrot';
+import { TiledMap } from './tiled-map/tiled-map';
 import { SpaceBunny } from './objects/bunnies/space-bunny';
-import { SimpleBunny } from './objects/bunnies/simple-bunny';
+import { RobotBunny } from './objects/bunnies/robot-bunny';
+import { SimpleCannon } from './objects/cannons/simple-cannon';
+import { Carrot } from './objects/carrot';
 
 
 export default class App {
-  public app: any;
+  public app: Application;
+  public map: TiledMap;
 
-  private WIDTH: number = 800;
-  private HEIGHT: number = 600;
+  private WIDTH: number = 1280;
+  private HEIGHT: number = 768;
 
   private bunnies: Bunny[] = [];
   private cannons: Cannon[] = [];
@@ -33,12 +33,27 @@ export default class App {
     // this.WIDTH = window.innerWidth;
     // this.HEIGHT = window.innerHeight;
 
-    return Promise.resolve();
+    return new Promise(resolve => {
+      PIXI.loader
+        .add('Outside_A1', require('../../src/assets/images/Outside_A1.png'))
+        .add('Outside_A2', require('../../src/assets/images/Outside_A2.png'))
+        .load(() => {
+          resolve();
+        });
+    });
   }
 
   bootstrap() {
     this.createScene();
     this.initEvents();
+
+    const mapData = require('../../src/assets/map/map.json');
+
+    this.map = new TiledMap(mapData);
+    this.map.draw();
+
+    this.app.stage.addChild(this.map);
+
 
     const bunny = new SpaceBunny(300, 30);
     this.addBunny(bunny);
@@ -46,8 +61,8 @@ export default class App {
     const bunny1 = new RobotBunny(50, 30);
     this.addBunny(bunny1);
 
-    // const bunny2 = new RobotBunny(425, 430);
-    // this.addBunny(bunny2);
+    const bunny2 = new RobotBunny(425, 430);
+    this.addBunny(bunny2);
 
 
     const cannon = new SimpleCannon(this.app.stage, 400, 130);
@@ -59,10 +74,9 @@ export default class App {
     const cannon2 = new SimpleCannon(this.app.stage, 600, 350);
     this.addCannon(cannon2);
 
-    // const carrot = new Carrot(cannon2, bunny2);
-    // cannon2.addCarrot(carrot);
-    // this.app.stage.addChild(carrot.getMesh());
-
+    const carrot = new Carrot(cannon2, bunny2);
+    cannon2.addCarrot(carrot);
+    this.app.stage.addChild(carrot.getMesh());
 
     this.render();
   }

@@ -1,5 +1,5 @@
 import { Point } from "pixi.js";
-import { GameObject } from './object';
+import { GameObject } from '../objects/object';
 
 export function getDistance(cannon: GameObject, target: GameObject) {
   const dx = Math.pow(target.centerX - cannon.x, 2);

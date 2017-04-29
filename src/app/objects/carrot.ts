@@ -1,5 +1,5 @@
 import { Point, Texture, Sprite } from "pixi.js";
-import { GameObject } from '../core/object';
+import { GameObject } from './object';
 import { Bunny } from './bunnies/bunny';
 import { getTargetAngle, hitTest } from '../core/helpers';
 import { Cannon } from './cannons/cannon';

@@ -1,5 +1,5 @@
 import { Point, Texture, Rectangle, Sprite, Graphics, Container } from "pixi.js";
-import { GameObject } from '../../core/object';
+import { GameObject } from '../object';
 import { Carrot } from '../carrot';
 import { Bunny } from '../bunnies/bunny';
 import { getDistance, getTargetAngle } from '../../core/helpers';
@@ -19,7 +19,7 @@ export class Cannon extends GameObject {
   public carrots: Carrot[] = [];
 
   private target: Bunny = null;
-  private timer: NodeJS.Timer;
+  private timer;
 
   constructor(public stage: Container, public posX: number, public posY: number) {
     super();

@@ -1,5 +1,5 @@
 import { Point, Texture, Sprite, Rectangle } from "pixi.js";
-import { GameObject } from '../../core/object';
+import { GameObject } from '../object';
 import { Cannon } from '../cannons/cannon';
 
 
