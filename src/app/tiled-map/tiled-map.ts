@@ -2,11 +2,16 @@ import { Container, utils } from "pixi.js";
 import { Layer } from './layer';
 import { Tileset } from './tileset';
 import { Tile } from './tile';
+import { Spawn } from '../objects/spawn/spawn';
+import { Destination } from '../objects/destination/destination';
 
 export class TiledMap extends Container {
 
-  private tilesets: Tileset[] = [];
-  private layers: Layer[] = [];
+  tilesets: Tileset[] = [];
+  layers: Layer[] = [];
+  spawns: Spawn[] = [];
+
+  destination: Destination = null;
 
   constructor(public data) {
     super();
@@ -24,38 +29,85 @@ export class TiledMap extends Container {
       }
 
       const tileset = new Tileset(tilesetData, texture);
+      console.log(tileset.textures);
       this.tilesets.push(tileset);
     });
   }
 
   private processLayers() {
     this.data.layers.forEach(layerData => {
-      const {name, opacity} = layerData;
-      const layer = new Layer(name, opacity);
+      switch (layerData.type) {
+        case 'tilelayer':
+          return this.processTileLayer(layerData);
+        case 'objectgroup':
+          return this.processObjects(layerData);
+      }
+    });
+  }
 
-      for (let x = 0; x < layerData.width; x++) {
-        for (let y = 0; y < layerData.height; y++) {
+  private processTileLayer(layerData) {
+    const {name, visible} = layerData;
+    const layer = new Layer(name, visible);
 
-          const index = x + (y * layerData.width);
-          const gid = layerData.data[index];
+    if (layerData.encoding === 'base64') {
+      layerData.data = this.decodeData(layerData.data);
+    }
 
-          if (gid !== 0) {
-            const tilesetAndTexture = this.findTilesetAndTexture(gid);
-            const texture = tilesetAndTexture.texture;
+    for (let x = 0; x < layerData.width; x++) {
+      for (let y = 0; y < layerData.height; y++) {
 
-            const tile = new Tile(gid, texture);
+        const index = x + (y * layerData.width);
+        const gid = layerData.data[index];
 
-            tile.x = this.computeXCoordinate(x, this.data.tilewidth);
-            tile.y = this.computeYCoordinate(y, this.data.tileheight);
+        if (gid !== 0) {
+          const tilesetAndTexture = this.findTilesetAndTexture(gid);
+          const texture = tilesetAndTexture.texture;
 
-            layer.addChild(tile);
-          }
+          const tile = new Tile(gid, texture);
+
+          tile.x = this.computeXCoordinate(x, this.data.tilewidth);
+          tile.y = this.computeYCoordinate(y, this.data.tileheight);
+
+          layer.addChild(tile);
         }
       }
+    }
 
-      this.layers[layer.name] = layer;
-      this.addChild(layer);
+    this.layers[layer.name] = layer;
+    this.addChild(layer);
+  }
+
+  private processObjects(layerData) {
+    layerData.objects.forEach(object => {
+      switch (object.name) {
+        case 'spawn': {
+          const spawn = new Spawn(object);
+
+          this.spawns.push(spawn);
+          this.addChild(spawn);
+          break;
+        }
+        case 'destination': {
+          const destination = new Destination(object);
+
+          this.destination = destination;
+          this.addChild(destination);
+
+          break;
+        }
+      }
     });
+  }
+
+  private decodeData(data) {
+    const decodedCharBuffer = new Buffer(data, 'base64');
+    const result = [];
+
+    for(let i = 0; i < decodedCharBuffer.length; i+=4) {
+      result.push(decodedCharBuffer.readInt32LE(i));
+    }
+
+    return result;
   }
 
   private findTilesetAndTexture(gid) {

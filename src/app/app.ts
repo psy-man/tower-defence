@@ -37,6 +37,7 @@ export default class App {
       PIXI.loader
         .add('Outside_A1', require('../../src/assets/images/Outside_A1.png'))
         .add('Outside_A2', require('../../src/assets/images/Outside_A2.png'))
+        .add('Outside_B', require('../../src/assets/images/Outside_B.png'))
         .load(() => {
           resolve();
         });
@@ -53,24 +54,24 @@ export default class App {
     this.app.stage.addChild(this.map);
 
 
-    const bunny = new SpaceBunny(300, 30);
-    this.addBunny(bunny);
-
-    const bunny1 = new RobotBunny(50, 30);
-    this.addBunny(bunny1);
-
-    const bunny2 = new RobotBunny(425, 430);
-    this.addBunny(bunny2);
-
-
-    const cannon = new SimpleCannon(this.app.stage, 400, 130);
-    this.addCannon(cannon);
-
-    const cannon1 = new SimpleCannon(this.app.stage, 200, 350);
-    this.addCannon(cannon1);
-
-    const cannon2 = new SimpleCannon(this.app.stage, 600, 350);
-    this.addCannon(cannon2);
+    // const bunny = new SpaceBunny(300, 30);
+    // this.addBunny(bunny);
+    //
+    // const bunny1 = new RobotBunny(50, 30);
+    // this.addBunny(bunny1);
+    //
+    // const bunny2 = new RobotBunny(425, 430);
+    // this.addBunny(bunny2);
+    //
+    //
+    // const cannon = new SimpleCannon(this.app.stage, 400, 130);
+    // this.addCannon(cannon);
+    //
+    // const cannon1 = new SimpleCannon(this.app.stage, 200, 350);
+    // this.addCannon(cannon1);
+    //
+    // const cannon2 = new SimpleCannon(this.app.stage, 600, 350);
+    // this.addCannon(cannon2);
 
     this.render();
   }
