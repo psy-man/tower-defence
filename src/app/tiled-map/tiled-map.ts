@@ -29,7 +29,6 @@ export class TiledMap extends Container {
       }
 
       const tileset = new Tileset(tilesetData, texture);
-      console.log(tileset.textures);
       this.tilesets.push(tileset);
     });
   }
@@ -92,7 +91,6 @@ export class TiledMap extends Container {
 
           this.destination = destination;
           this.addChild(destination);
-
           break;
         }
       }
@@ -114,8 +112,12 @@ export class TiledMap extends Container {
     let tileset;
 
     for (const tile of this.tilesets) {
+      if (gid < tile.firstGID || gid > tile.firstGID + tile.tileCount) {
+        continue;
+      }
+
       tileset = tile;
-      if(tileset.firstGID <= gid) { break; }
+      break;
     }
 
     const ix = gid - tileset.firstGID;

@@ -5,6 +5,8 @@ export class Tileset {
   name: string;
   firstGID: number;
 
+  tileCount: number;
+
   imageWidth: number;
   imageHeight: number;
 
@@ -20,6 +22,8 @@ export class Tileset {
 
     this.name = data.name;
     this.firstGID = data.firstgid;
+
+    this.tileCount = data.tilecount;
 
     this.imageWidth = data.imagewidth;
     this.imageHeight = data.imageheight;
