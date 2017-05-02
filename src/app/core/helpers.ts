@@ -25,3 +25,12 @@ export function hitTest(A, B) {
 
   return Math.abs(dx) <= w && Math.abs(dy) <= h;
 }
+
+
+export function getCenterX(x: number, width: number): number {
+  return x + width / 2;
+}
+
+export function getCenterY(y: number, height: number): number {
+  return y + height / 2;
+}

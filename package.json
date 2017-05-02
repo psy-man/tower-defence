@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "moment": "^2.17.1",
+    "pathfinding": "^0.4.18",
     "pixi.js": "^4.4.4"
   }
 }

@@ -23,7 +23,7 @@ export class Bunny extends GameObject {
 
     this.x = this.posX;
     this.y = this.posY;
-    // this.mesh.scale.set(0.7, 0.7);
+    this.mesh.scale.set(0.5, 0.5);
 
     // this.initDraggable();
   }

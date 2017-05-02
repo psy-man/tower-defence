@@ -1,18 +1,14 @@
-import { Rectangle, Graphics } from "pixi.js";
+import { Rectangle, Graphics, Point } from "pixi.js";
+import { getCenterX, getCenterY } from '../core/helpers';
 
 
 export class Destination extends Graphics  {
   id: number;
 
-  dir: string;
-  pos: string;
-
-  constructor(obj) {
+  constructor(private obj) {
     super();
 
     this.id = obj.id;
-    this.dir = obj.properties.dir;
-    this.pos = obj.properties.pos;
 
     this.lineStyle(1, 0xFFFFFF);
     this.drawRect(obj.x, obj.y, obj.width, obj.height);

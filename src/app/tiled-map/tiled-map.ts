@@ -1,9 +1,9 @@
-import { Container, utils } from "pixi.js";
+import { Container, Polygon, utils } from "pixi.js";
 import { Layer } from './layer';
 import { Tileset } from './tileset';
 import { Tile } from './tile';
-import { Spawn } from '../objects/spawn/spawn';
-import { Destination } from '../objects/destination/destination';
+import { Spawn } from './spawn';
+import { Destination } from './destination';
 
 export class TiledMap extends Container {
 
@@ -12,6 +12,8 @@ export class TiledMap extends Container {
   spawns: Spawn[] = [];
 
   destination: Destination = null;
+
+  pathMap: Polygon = null;
 
   constructor(public data) {
     super();
@@ -79,6 +81,17 @@ export class TiledMap extends Container {
   private processObjects(layerData) {
     layerData.objects.forEach(object => {
       switch (object.name) {
+        case 'path-map': {
+          const points = [];
+
+          object.polygon.forEach(({x, y}) => {
+            points.push(x + object.x);
+            points.push(y + object.y);
+          });
+
+          this.pathMap = new Polygon(points);
+          break;
+        }
         case 'spawn': {
           const spawn = new Spawn(object);
 
