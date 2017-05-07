@@ -85,7 +85,7 @@ export class Cannon extends GameObject {
         continue;
       }
 
-      if (!closest || distance < closest) {
+      if ((!closest || distance < closest) && bunny.health > 0) {
         closest = distance;
         target = bunny;
       }

@@ -5,8 +5,8 @@ export class SimpleCannon extends Cannon {
 
   public range: number = 200;
 
-  public shotsPerSecond: number = 3;
-  public speed: number = 5;
+  public shotsPerSecond: number = 10;
+  public speed: number = 30;
 
   public damage: number = 1;
   public radius: number = 16;
@@ -27,7 +27,7 @@ export class SimpleCannon extends Cannon {
     line.lineTo(25, 1);
 
     const radius = new Graphics();
-    radius.lineStyle (1, 0xFFFFFF, 0.1);
+    radius.lineStyle (1, 0x9966FF, 0.4);
     radius.drawCircle(0, 0, this.range);
 
     cannon.addChild(circle);

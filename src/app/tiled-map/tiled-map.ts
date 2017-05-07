@@ -1,11 +1,15 @@
-import { Container, Polygon, utils } from "pixi.js";
+import { Container, Polygon, utils, Graphics } from "pixi.js";
+import { Grid, AStarFinder, Heuristic } from 'pathfinding';
 import { Layer } from './layer';
 import { Tileset } from './tileset';
 import { Tile } from './tile';
 import { Spawn } from './spawn';
 import { Destination } from './destination';
+import { Walkable } from '../core/enums';
 
 export class TiledMap extends Container {
+  tileWidth: number = 16;
+  tileHeight: number = 16;
 
   tilesets: Tileset[] = [];
   layers: Layer[] = [];
@@ -14,12 +18,23 @@ export class TiledMap extends Container {
   destination: Destination = null;
 
   pathMap: Polygon = null;
+  grid: Grid;
 
-  constructor(public data) {
+  debug: boolean = true;
+  gridDebug: Container = new Container();
+
+  constructor(public stage: Container, public WIDTH: number, public HEIGHT: number, public data) {
     super();
 
     this.processTilesets();
     this.processLayers();
+
+    this.createPathGrid();
+    this.calculatePaths();
+
+    if (this.debug) {
+      this.addChild(this.gridDebug);
+    }
   }
 
   private processTilesets() {
@@ -43,6 +58,65 @@ export class TiledMap extends Container {
         case 'objectgroup':
           return this.processObjects(layerData);
       }
+    });
+  }
+
+  private createPathGrid() {
+    const matrix = [];
+
+    for(let y = 0, dy = 0; y < this.HEIGHT; y += this.tileHeight, dy++) {
+      matrix[dy] = [];
+      for(let x = 0, dx = 0; x < this.WIDTH; x += this.tileWidth, dx++) {
+        const xx = x + this.tileWidth / 2;
+        const yy = y + this.tileHeight / 2;
+
+        matrix[dy][dx] = this.pathMap.contains(xx, yy) ? Walkable.yes : Walkable.no;
+
+        if (this.debug && matrix[dy][dx] === Walkable.yes) {
+          const g = new Graphics();
+          g.lineStyle(1, 0x000000, 0.2);
+          g.drawRect(xx, yy, 1, 1);
+          this.gridDebug.addChild(g);
+        }
+      }
+    }
+
+    this.grid = new Grid(matrix);
+  }
+
+  private calculatePaths() {
+    const finder = new AStarFinder({
+      allowDiagonal: true,
+      dontCrossCorners: true,
+      // heuristic: Heuristic.chebyshev
+    });
+
+    this.spawns.forEach(spawn => {
+      const {x, y} = spawn.spawnPoint;
+
+      let xx = Math.round(x / this.tileWidth);
+      let yy = Math.round(y / this.tileHeight);
+
+      if (xx === 80) {
+        xx = 79;
+      }
+
+      if (yy === 48) {
+        yy = 47;
+      }
+
+      spawn.pathToDestination = finder.findPath(xx, yy, 42, 22, this.grid.clone());
+
+      if (this.debug) {
+        spawn.pathToDestination.forEach(([x, y]) => {
+          const g = new Graphics();
+          g.lineStyle(1, 0xFF0000);
+          g.drawRect(x * 16 + 8, y * 16 + 8, 1, 1);
+
+          this.gridDebug.addChild(g);
+        });
+      }
+
     });
   }
 
@@ -93,7 +167,7 @@ export class TiledMap extends Container {
           break;
         }
         case 'spawn': {
-          const spawn = new Spawn(object);
+          const spawn = new Spawn(this, object);
 
           this.spawns.push(spawn);
           this.addChild(spawn);

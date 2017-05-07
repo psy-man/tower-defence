@@ -5,10 +5,8 @@ import { Cannon } from '../cannons/cannon';
 
 export class Bunny extends GameObject {
 
-  public health: number = 100;
-  public speed: number = 1;
-
-  public angle = Math.PI;
+  public health: number = 1;
+  public speed: number = 1000;
 
   protected textures: Texture = Texture.fromImage(require('./../../../assets/images/bunnys.png'));
 
@@ -29,10 +27,7 @@ export class Bunny extends GameObject {
   }
 
   move() {
-    this.angle += 0.01;
 
-    this.x = 400 + Math.cos(this.angle) * this.posX;
-    this.y = 300 + Math.sin(this.angle) * this.posX;
   }
 
   hit(cannon: Cannon) {
