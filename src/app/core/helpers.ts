@@ -1,14 +1,14 @@
 import { Point } from "pixi.js";
-import { GameObject } from '../objects/object';
+import { BaseObject } from '../objects/base-object';
 
-export function getDistance(cannon: GameObject, target: GameObject) {
+export function getDistance(cannon: BaseObject, target: BaseObject) {
   const dx = Math.pow(target.centerX - cannon.x, 2);
   const dy = Math.pow(target.centerY - cannon.y, 2);
 
   return Math.sqrt(dx + dy);
 }
 
-export function getTargetAngle(cannon: GameObject, target: GameObject) {
+export function getTargetAngle(cannon: BaseObject, target: BaseObject) {
   const dist_X = cannon.x - target.centerX;
   const dist_Y = cannon.y - target.centerY;
 
@@ -27,10 +27,6 @@ export function hitTest(A, B) {
 }
 
 
-export function getCenterX(x: number, width: number): number {
-  return x + width / 2;
-}
-
-export function getCenterY(y: number, height: number): number {
-  return y + height / 2;
+export function getCenter(i: number, j: number): number {
+  return i + j / 2;
 }

@@ -1,8 +1,7 @@
-import { Rectangle, Graphics, Point } from "pixi.js";
-import { getCenterX, getCenterY } from '../core/helpers';
+import { Rectangle, Graphics, Point, Container } from "pixi.js";
 
 
-export class Destination extends Graphics  {
+export class Destination extends Container  {
   id: number;
 
   constructor(private obj) {
@@ -10,7 +9,11 @@ export class Destination extends Graphics  {
 
     this.id = obj.id;
 
-    this.lineStyle(1, 0xFFFFFF);
-    this.drawRect(obj.x, obj.y, obj.width, obj.height);
+    const graphics = new Graphics();
+
+    graphics.lineStyle(1, 0xFFFFFF);
+    graphics.drawRect(obj.x, obj.y, obj.width, obj.height);
+
+    this.addChild(graphics);
   }
 }

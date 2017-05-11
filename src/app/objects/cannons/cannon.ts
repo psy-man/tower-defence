@@ -1,12 +1,11 @@
 import { Point, Texture, Rectangle, Sprite, Graphics, Container } from "pixi.js";
-import { GameObject } from '../object';
-import { Carrot } from '../carrot';
-import { Bunny } from '../bunnies/bunny';
 import { getDistance, getTargetAngle } from '../../core/helpers';
+import { BaseObject } from '../base-object';
+import { Carrot } from '../ammo/carrot';
+import { Bunny } from '../bunnies/bunny';
 
 
-
-export class Cannon extends GameObject {
+export class Cannon extends BaseObject {
   public range: number = 10;
 
   public active: boolean = false;
@@ -19,24 +18,20 @@ export class Cannon extends GameObject {
   public carrots: Carrot[] = [];
 
   private target: Bunny = null;
-  private timer;
+  private timer: any;
 
   constructor(public stage: Container, public posX: number, public posY: number) {
     super();
-  }
 
-  setMesh(sprite) {
-    this.mesh = sprite;
+    this.x = posX;
+    this.y = posY;
 
-    this.x = this.posX;
-    this.y = this.posY;
-
-    super.initDraggable(true);
+    this.initDraggable(true);
   }
 
   addCarrot(carrot: Carrot) {
     this.carrots.push(carrot);
-    this.stage.addChild(carrot.getMesh());
+    this.stage.addChild(carrot);
   }
 
   startShooting(target: Bunny) {

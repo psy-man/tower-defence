@@ -5,10 +5,10 @@ export class SimpleCannon extends Cannon {
 
   public range: number = 200;
 
-  public shotsPerSecond: number = 10;
-  public speed: number = 30;
+  public shotsPerSecond: number = 3;
+  public speed: number = 20;
 
-  public damage: number = 1;
+  public damage: number = 2;
   public radius: number = 16;
 
   constructor(public stage: Container, public posX: number, public posY: number) {
@@ -34,6 +34,6 @@ export class SimpleCannon extends Cannon {
     cannon.addChild(line);
     cannon.addChild(radius);
 
-    this.setMesh(cannon);
+    this.addChild(cannon);
   }
 }

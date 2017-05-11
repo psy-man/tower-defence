@@ -4,14 +4,10 @@ import { Bunny } from './bunny';
 
 export class RobotBunny extends Bunny {
 
-  public health: number = 1;
+  public health: number = 2;
   public speed: number = 300;
 
-  private texturePosition: Rectangle = new Rectangle(2, 164, 26, 37);
-
   constructor(public posX: number, public posY: number) {
-    super(posX, posY);
-
-    this.setMesh(this.texturePosition);
+    super(new Rectangle(2, 164, 26, 37), posX, posY);
   }
 }

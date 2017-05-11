@@ -1,33 +1,29 @@
 import { Point, Texture, Sprite, Rectangle } from "pixi.js";
-import { GameObject } from '../object';
+import { BaseObject } from '../base-object';
 import { Cannon } from '../cannons/cannon';
 
 
-export class Bunny extends GameObject {
+export class Bunny extends BaseObject {
 
-  public health: number = 1;
+  public health: number = 100;
   public speed: number = 1000;
 
   protected textures: Texture = Texture.fromImage(require('./../../../assets/images/bunnys.png'));
 
-  constructor(public posX: number, public posY: number) {
+  constructor(public texturePosition: Rectangle, public posX: number, public posY: number) {
     super();
-  }
-
-  setMesh(position: Rectangle) {
-    const texture = new Texture(this.textures.baseTexture, position);
-
-    this.mesh = new Sprite(texture);
 
     this.x = this.posX;
     this.y = this.posY;
-    this.mesh.scale.set(0.5, 0.5);
 
-    // this.initDraggable();
-  }
+    const texture = new Texture(this.textures.baseTexture, texturePosition);
 
-  move() {
+    const sprite = new Sprite(texture);
+    sprite.scale.set(0.5, 0.5);
 
+    this.addChild(sprite);
+
+    super.initDraggable();
   }
 
   hit(cannon: Cannon) {

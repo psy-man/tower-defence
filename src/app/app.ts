@@ -11,14 +11,11 @@ import {
 import { TiledMap } from './tiled-map/tiled-map';
 
 import { Bunny } from './objects/bunnies/bunny';
-import { SpaceBunny } from './objects/bunnies/space-bunny';
-import { RobotBunny } from './objects/bunnies/robot-bunny';
 
 import { Cannon } from './objects/cannons/cannon';
 import { SimpleCannon } from './objects/cannons/simple-cannon';
 
 import {Grid, AStarFinder, Heuristic} from 'pathfinding';
-import { Spawn } from './tiled-map/spawn';
 
 
 export default class App {
@@ -56,16 +53,10 @@ export default class App {
     this.map = new TiledMap(this.app.stage, this.WIDTH, this.HEIGHT, mapData);
     this.app.stage.addChild(this.map);
 
-    // const bunny = new SpaceBunny(300, 30);
-    // this.addBunny(bunny);
-    // //
 
-    this.map.spawns.forEach(s => s.addBunnies(100));
-    //
-    // const bunny2 = new RobotBunny(425, 430);
-    // this.addBunny(bunny2);
-    //
-    //
+    this.map.spawns.forEach(s => s.addBunnies(10));
+
+
     const cannon = new SimpleCannon(this.app.stage, 515, 247);
     this.addCannon(cannon);
 
@@ -102,7 +93,7 @@ export default class App {
 
   private addCannon(cannon: Cannon) {
     this.cannons.push(cannon);
-    this.app.stage.addChild(cannon.getMesh());
+    this.app.stage.addChild(cannon);
   }
 
   private createScene() {

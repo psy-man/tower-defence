@@ -1,14 +1,14 @@
 import { Rectangle, Graphics, Point, Container } from "pixi.js";
 import { Direction, Position } from '../core/enums';
-import { getCenterX, getCenterY } from '../core/helpers';
-import { Destination } from './destination';
+import { getCenter } from '../core/helpers';
 import { Bunny } from '../objects/bunnies/bunny';
 
 import { RobotBunny } from '../objects/bunnies/robot-bunny';
 import { TiledMap } from './tiled-map';
+import { BaseObject } from '../objects/base-object';
 
 
-export class Spawn extends Graphics  {
+export class Spawn extends BaseObject  {
   id: number;
 
   dir: Direction;
@@ -25,8 +25,11 @@ export class Spawn extends Graphics  {
     this.dir = Direction[<string>obj.properties.dir];
     this.pos = Position[<string>obj.properties.pos];
 
-    this.lineStyle(1, 0xFF0000);
-    // this.drawRect(obj.x, obj.y, obj.width, obj.height);
+    const graphics = new Graphics();
+    graphics.lineStyle(1, 0xFF0000);
+    graphics.drawRect(obj.x, obj.y, obj.width, obj.height);
+
+    this.addChild(graphics);
   }
 
   update() {
@@ -53,13 +56,13 @@ export class Spawn extends Graphics  {
 
     bunny.x -= bunny.width / 2;
     bunny.y -= bunny.height / 2;
+    bunny.visible = false;
 
     let pos = 0;
 
     const timer = setInterval(() => {
       if (!this.pathToDestination[pos]) {
         clearInterval(timer);
-        bunny.hide();
         return false;
       }
 
@@ -69,16 +72,17 @@ export class Spawn extends Graphics  {
       bunny.y = (y * 16 + 8) - bunny.height / 2;
 
       pos++;
+      bunny.visible = true;
 
     }, bunny.speed);
 
     this.bunnies.push(bunny);
-    this.map.stage.addChild(bunny.getMesh());
+    this.map.stage.addChild(bunny);
   }
 
   get spawnPoint(): Point {
-    const x = Math.round(getCenterX(this.obj.x, this.obj.width));
-    const y = Math.round(getCenterY(this.obj.y, this.obj.height));
+    const x = Math.round(getCenter(this.obj.x, this.obj.width));
+    const y = Math.round(getCenter(this.obj.y, this.obj.height));
 
     return new Point(x, y);
   }
