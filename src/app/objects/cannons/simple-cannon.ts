@@ -1,6 +1,7 @@
 import { Point, Texture, Rectangle, Sprite, Graphics, Container } from "pixi.js";
 import { Cannon } from './cannon';
 
+
 export class SimpleCannon extends Cannon {
 
   public range: number = 200;

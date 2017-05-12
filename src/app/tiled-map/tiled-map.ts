@@ -7,6 +7,7 @@ import { Spawn } from './spawn';
 import { Destination } from './destination';
 import { Walkable } from '../core/enums';
 
+
 export class TiledMap extends Container {
   tileWidth: number = 16;
   tileHeight: number = 16;

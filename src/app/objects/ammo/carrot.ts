@@ -1,8 +1,9 @@
 import { Point, Texture, Sprite } from "pixi.js";
+import { getTargetAngle, hitTest } from '../../core/helpers';
 import { BaseObject } from '../base-object';
 import { Bunny } from '../bunnies/bunny';
-import { getTargetAngle, hitTest } from '../../core/helpers';
 import { Cannon } from '../cannons/cannon';
+
 
 export class Carrot extends BaseObject {
 

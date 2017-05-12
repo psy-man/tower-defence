@@ -17,7 +17,6 @@ export class Spawn extends BaseObject  {
   pathToDestination = [];
   bunnies: Bunny[] = [];
 
-
   constructor(public map: TiledMap, private obj) {
     super();
 

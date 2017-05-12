@@ -1,6 +1,7 @@
 import { Sprite, Container } from "pixi.js";
 import { getCenter } from '../core/helpers';
 
+
 export class BaseObject extends Container {
   constructor() {
     super();

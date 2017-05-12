@@ -8,14 +8,11 @@ import {
   Container
 } from "pixi.js";
 
+import {Grid, AStarFinder, Heuristic} from 'pathfinding';
 import { TiledMap } from './tiled-map/tiled-map';
-
 import { Bunny } from './objects/bunnies/bunny';
-
 import { Cannon } from './objects/cannons/cannon';
 import { SimpleCannon } from './objects/cannons/simple-cannon';
-
-import {Grid, AStarFinder, Heuristic} from 'pathfinding';
 
 
 export default class App {
@@ -24,7 +21,6 @@ export default class App {
 
   private WIDTH: number = 1280;
   private HEIGHT: number = 768;
-
 
   private cannons: Cannon[] = [];
 
@@ -52,7 +48,6 @@ export default class App {
 
     this.map = new TiledMap(this.app.stage, this.WIDTH, this.HEIGHT, mapData);
     this.app.stage.addChild(this.map);
-
 
     this.map.spawns.forEach(s => s.addBunnies(10));
 
@@ -103,10 +98,5 @@ export default class App {
     document.body.appendChild(this.app.view);
   }
 
-  private initEvents() {
-    // document.body.addEventListener('mousedown', this.onMouseDown.bind(this), false);
-    // document.body.addEventListener('mousewheel', this.onMouseWheel.bind(this), false);
-    //
-    // window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
-  }
+  private initEvents() {}
 }
