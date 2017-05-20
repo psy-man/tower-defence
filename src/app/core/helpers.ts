@@ -1,4 +1,3 @@
-import { Point } from "pixi.js";
 import { BaseObject } from '../objects/base-object';
 
 
@@ -10,10 +9,10 @@ export function getDistance(cannon: BaseObject, target: BaseObject) {
 }
 
 export function getTargetAngle(cannon: BaseObject, target: BaseObject) {
-  const dist_X = cannon.x - target.centerX;
-  const dist_Y = cannon.y - target.centerY;
+  const distanceX = cannon.x - target.centerX;
+  const distanceY = cannon.y - target.centerY;
 
-  return Math.atan2(dist_Y, dist_X) + Math.PI;
+  return Math.atan2(distanceY, distanceX) + Math.PI;
 }
 
 // Minkowski addition

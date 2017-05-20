@@ -1,4 +1,4 @@
-import { Point, Texture, Rectangle, Sprite } from "pixi.js";
+import { Rectangle } from 'pixi.js';
 import { Bunny } from './bunny';
 
 

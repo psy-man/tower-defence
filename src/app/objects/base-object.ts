@@ -1,4 +1,4 @@
-import { Sprite, Container } from "pixi.js";
+import { Container } from 'pixi.js';
 import { getCenter } from '../core/helpers';
 
 

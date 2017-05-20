@@ -1,5 +1,6 @@
-import { Container, Polygon, utils, Graphics } from "pixi.js";
-import { Grid, AStarFinder, Heuristic } from 'pathfinding';
+import { Container, Polygon, utils, Graphics } from 'pixi.js';
+import { Grid, AStarFinder } from 'pathfinding';
+
 import { Layer } from './layer';
 import { Tileset } from './tileset';
 import { Tile } from './tile';
@@ -58,6 +59,9 @@ export class TiledMap extends Container {
           return this.processTileLayer(layerData);
         case 'objectgroup':
           return this.processObjects(layerData);
+        default:
+          console.error(`${layerData.type} is not supported`);
+          break;
       }
     });
   }
@@ -65,9 +69,9 @@ export class TiledMap extends Container {
   private createPathGrid() {
     const matrix = [];
 
-    for(let y = 0, dy = 0; y < this.HEIGHT; y += this.tileHeight, dy++) {
+    for (let y = 0, dy = 0; y < this.HEIGHT; y += this.tileHeight, dy++) {
       matrix[dy] = [];
-      for(let x = 0, dx = 0; x < this.WIDTH; x += this.tileWidth, dx++) {
+      for (let x = 0, dx = 0; x < this.WIDTH; x += this.tileWidth, dx++) {
         const xx = x + this.tileWidth / 2;
         const yy = y + this.tileHeight / 2;
 
@@ -88,8 +92,8 @@ export class TiledMap extends Container {
   private calculatePaths() {
     const finder = new AStarFinder({
       allowDiagonal: true,
-      dontCrossCorners: true,
-      // heuristic: Heuristic.chebyshev
+      dontCrossCorners: true
+      // Heuristic: Heuristic.chebyshev
     });
 
     this.spawns.forEach(spawn => {
@@ -117,7 +121,6 @@ export class TiledMap extends Container {
           this.gridDebug.addChild(g);
         });
       }
-
     });
   }
 
@@ -131,7 +134,6 @@ export class TiledMap extends Container {
 
     for (let x = 0; x < layerData.width; x++) {
       for (let y = 0; y < layerData.height; y++) {
-
         const index = x + (y * layerData.width);
         const gid = layerData.data[index];
 
@@ -181,6 +183,9 @@ export class TiledMap extends Container {
           this.addChild(destination);
           break;
         }
+        default:
+          console.error(`${object.name} is not supported`);
+          break;
       }
     });
   }
@@ -189,7 +194,7 @@ export class TiledMap extends Container {
     const decodedCharBuffer = new Buffer(data, 'base64');
     const result = [];
 
-    for(let i = 0; i < decodedCharBuffer.length; i+=4) {
+    for (let i = 0; i < decodedCharBuffer.length; i += 4) {
       result.push(decodedCharBuffer.readInt32LE(i));
     }
 

@@ -1,14 +1,5 @@
-import {
-  Texture,
-  Rectangle,
-  Application,
-  Sprite,
-  Point,
-  Graphics,
-  Container
-} from "pixi.js";
+import { Application } from 'pixi.js';
 
-import {Grid, AStarFinder, Heuristic} from 'pathfinding';
 import { TiledMap } from './tiled-map/tiled-map';
 import { Bunny } from './objects/bunnies/bunny';
 import { Cannon } from './objects/cannons/cannon';
@@ -24,11 +15,8 @@ export default class App {
 
   private cannons: Cannon[] = [];
 
-  constructor() {
-  }
-
   preload() {
-    // this.WIDTH = window.innerWidth;
+    // This.WIDTH = window.innerWidth;
     // this.HEIGHT = window.innerHeight;
 
     return new Promise(resolve => {
@@ -92,11 +80,13 @@ export default class App {
   }
 
   private createScene() {
-    this.app = new Application(this.WIDTH, this.HEIGHT, { antialias: true });
+    this.app = new Application(this.WIDTH, this.HEIGHT, {antialias: true});
     this.app.stage.interactive = true;
 
     document.body.appendChild(this.app.view);
   }
 
-  private initEvents() {}
+  private initEvents() {
+    console.log('events');
+  }
 }

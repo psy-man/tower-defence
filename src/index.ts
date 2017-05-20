@@ -8,7 +8,5 @@ app
   .then(() => {
     document.getElementById('loading').remove();
 
-    app.bootstrap()
+    app.bootstrap();
   });
-
-

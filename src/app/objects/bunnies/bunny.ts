@@ -1,6 +1,6 @@
-import { Point, Texture, Sprite, Rectangle } from "pixi.js";
-import { BaseObject } from '../base-object';
-import { Cannon } from '../cannons/cannon';
+import {Texture, Sprite, Rectangle} from 'pixi.js';
+import {BaseObject} from '../base-object';
+import {Cannon} from '../cannons/cannon';
 
 
 export class Bunny extends BaseObject {
@@ -35,7 +35,7 @@ export class Bunny extends BaseObject {
   }
 }
 
-// const bunny1 = new Texture(wabbitTexture.baseTexture, new Rectangle(2, 47, 26, 37));
+// Const bunny1 = new Texture(wabbitTexture.baseTexture, new Rectangle(2, 47, 26, 37));
 // const bunny2 = new Texture(wabbitTexture.baseTexture, new Rectangle(2, 86, 26, 37));
 // const bunny3 = new Texture(wabbitTexture.baseTexture, new Rectangle(2, 125, 26, 37));
 // const bunny4 = new Texture(wabbitTexture.baseTexture, new Rectangle(2, 164, 26, 37));

@@ -1,13 +1,13 @@
-import { Rectangle, Graphics, Point, Container } from "pixi.js";
+import { Graphics, Container } from 'pixi.js';
 
 
-export class Destination extends Container  {
+export class Destination extends Container {
   id: number;
 
   constructor(private obj) {
     super();
 
-    this.id = obj.id;
+    this.id = this.obj.id;
 
     const graphics = new Graphics();
 

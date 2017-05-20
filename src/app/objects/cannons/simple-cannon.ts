@@ -1,4 +1,4 @@
-import { Point, Texture, Rectangle, Sprite, Graphics, Container } from "pixi.js";
+import { Graphics, Container } from 'pixi.js';
 import { Cannon } from './cannon';
 
 
@@ -28,7 +28,7 @@ export class SimpleCannon extends Cannon {
     line.lineTo(25, 1);
 
     const radius = new Graphics();
-    radius.lineStyle (1, 0x9966FF, 0.4);
+    radius.lineStyle(1, 0x9966FF, 0.4);
     radius.drawCircle(0, 0, this.range);
 
     cannon.addChild(circle);

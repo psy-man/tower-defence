@@ -1,4 +1,4 @@
-import { Container, Texture } from 'pixi.js';
+import { Texture } from 'pixi.js';
 
 
 export class Tileset {
@@ -19,7 +19,6 @@ export class Tileset {
   textures: Texture[] = [];
 
   constructor(public data, public texture) {
-
     this.name = data.name;
     this.firstGID = data.firstgid;
 

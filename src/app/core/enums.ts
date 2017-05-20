@@ -1,12 +1,16 @@
-
 export enum Direction {
-  horisontal, vertical
+  horisontal,
+  vertical
 }
 
 export enum Position {
-  left, top, right, bottom
+  left,
+  top,
+  right,
+  bottom
 }
 
 export enum Walkable {
-  yes, no
+  yes,
+  no
 }

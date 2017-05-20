@@ -1,5 +1,6 @@
-import { Point, Texture, Rectangle, Sprite, Graphics, Container } from "pixi.js";
+import { Container } from 'pixi.js';
 import { getDistance, getTargetAngle } from '../../core/helpers';
+
 import { BaseObject } from '../base-object';
 import { Carrot } from '../ammo/carrot';
 import { Bunny } from '../bunnies/bunny';
@@ -72,8 +73,8 @@ export class Cannon extends BaseObject {
     let closest = null;
     let target: Bunny = null;
 
-    // get closest target
-    for (let bunny of bunnies) {
+    // Get closest target
+    for (const bunny of bunnies) {
       const distance = getDistance(this, bunny);
 
       if (distance > this.range) {

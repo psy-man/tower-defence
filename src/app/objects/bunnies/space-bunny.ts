@@ -1,4 +1,4 @@
-import { Point, Texture, Rectangle, Sprite } from "pixi.js";
+import { Rectangle } from 'pixi.js';
 import { Bunny } from './bunny';
 
 
@@ -11,3 +11,4 @@ export class SpaceBunny extends Bunny {
     super(new Rectangle(2, 2, 26, 37), posX, posY);
   }
 }
+

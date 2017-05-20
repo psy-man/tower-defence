@@ -1,4 +1,4 @@
-import { Rectangle, Graphics, Point, Container } from "pixi.js";
+import { Graphics, Point } from 'pixi.js';
 import { Direction, Position } from '../core/enums';
 import { getCenter } from '../core/helpers';
 import { Bunny } from '../objects/bunnies/bunny';
@@ -8,7 +8,7 @@ import { TiledMap } from './tiled-map';
 import { BaseObject } from '../objects/base-object';
 
 
-export class Spawn extends BaseObject  {
+export class Spawn extends BaseObject {
   id: number;
 
   dir: Direction;
@@ -21,8 +21,8 @@ export class Spawn extends BaseObject  {
     super();
 
     this.id = obj.id;
-    this.dir = Direction[<string>obj.properties.dir];
-    this.pos = Position[<string>obj.properties.pos];
+    this.dir = Direction[obj.properties.dir as string];
+    this.pos = Position[obj.properties.pos as string];
 
     const graphics = new Graphics();
     graphics.lineStyle(1, 0xFF0000);
