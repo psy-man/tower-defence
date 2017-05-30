@@ -3,7 +3,8 @@ import { Application } from 'pixi.js';
 import { TiledMap } from './tiled-map/tiled-map';
 import { Bunny } from './objects/bunnies/bunny';
 import { Cannon } from './objects/cannons/cannon';
-import { SimpleCannon } from './objects/cannons/simple-cannon';
+// import { SimpleCannon } from './objects/cannons/simple-cannon';
+import { UI } from './ui/ui';
 
 
 export default class App {
@@ -37,17 +38,20 @@ export default class App {
     this.map = new TiledMap(this.app.stage, this.WIDTH, this.HEIGHT, mapData);
     this.app.stage.addChild(this.map);
 
-    this.map.spawns.forEach(s => s.addBunnies(10));
+    const ui = new UI(this);
+    this.app.stage.addChild(ui);
+
+    // this.map.spawns.forEach(s => s.addBunnies(10));
 
 
-    const cannon = new SimpleCannon(this.app.stage, 515, 247);
-    this.addCannon(cannon);
-
-    const cannon1 = new SimpleCannon(this.app.stage, 932, 225);
-    this.addCannon(cannon1);
-
-    const cannon2 = new SimpleCannon(this.app.stage, 700, 544);
-    this.addCannon(cannon2);
+    // const cannon = new SimpleCannon(this.app.stage, 515, 247);
+    // this.addCannon(cannon);
+    //
+    // const cannon1 = new SimpleCannon(this.app.stage, 932, 225);
+    // this.addCannon(cannon1);
+    //
+    // const cannon2 = new SimpleCannon(this.app.stage, 700, 544);
+    // this.addCannon(cannon2);
 
     this.render();
   }
