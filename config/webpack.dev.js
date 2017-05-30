@@ -17,10 +17,7 @@ module.exports = function (env) {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: 'tslint-loader',
-          enforce: 'pre',
-          // options: {
-          //   tsConfigFile: 'tsconfig.json',
-          // }
+          enforce: 'pre'
         },
         {
           test: /\.scss$/,
@@ -40,7 +37,6 @@ module.exports = function (env) {
       }),
 
       new AddAssetHtmlPlugin({
-        includeSourcemap: false,
         filepath: require.resolve('../dll/vendor.dll.js')
       })
     ],
