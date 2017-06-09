@@ -41,7 +41,7 @@ export default class App {
     const ui = new UI(this);
     this.app.stage.addChild(ui);
 
-    // this.map.spawns.forEach(s => s.addBunnies(10));
+    this.map.spawns.forEach(s => s.addBunnies(10));
 
 
     // const cannon = new SimpleCannon(this.app.stage, 515, 247);

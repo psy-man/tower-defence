@@ -45,7 +45,7 @@ export class Spawn extends BaseObject {
       this.addBunny();
 
       count--;
-    }, 600);
+    }, 3000);
   }
 
   addBunny() {

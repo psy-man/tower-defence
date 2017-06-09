@@ -6,7 +6,7 @@ export class SimpleCannon extends Cannon {
 
   public range: number = 200;
 
-  public shotsPerSecond: number = 3;
+  public shotsPerSecond: number = 1;
   public speed: number = 20;
 
   public damage: number = 2;
