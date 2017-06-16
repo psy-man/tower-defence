@@ -5,10 +5,13 @@ import { Bunny } from './objects/bunnies/bunny';
 import { Cannon } from './objects/cannons/cannon';
 // import { SimpleCannon } from './objects/cannons/simple-cannon';
 import { UI } from './ui/ui';
+import { States } from './states';
 
 
 export default class App {
   public app: Application;
+  public states: States;
+
   public map: TiledMap;
 
   private WIDTH: number = 1280;
@@ -40,6 +43,9 @@ export default class App {
 
     const ui = new UI(this);
     this.app.stage.addChild(ui);
+
+    this.states = new States();
+    this.app.stage.addChild(this.states);
 
     this.map.spawns.forEach(s => s.addBunnies(10));
 
@@ -76,6 +82,8 @@ export default class App {
         cannon.chooseTarget(bunnies);
       }
     }
+
+    this.states.render();
   }
 
   private addCannon(cannon: Cannon) {

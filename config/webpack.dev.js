@@ -8,8 +8,6 @@ const commonConfig = require('./webpack.common.js');
 
 
 module.exports = function (env) {
-  console.log(env);
-
   return webpackMerge(commonConfig, {
     module: {
       rules: [
@@ -45,6 +43,7 @@ module.exports = function (env) {
 
     devServer: {
       port: 3000,
+      open: true,
       stats: {
         assets: false,
         children: false,

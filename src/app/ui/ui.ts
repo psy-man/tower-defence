@@ -68,6 +68,8 @@ export class UI extends Container {
       this.adding = true;
 
       game.app.stage.on('mousemove', onMouseMove);
+
+      circleContainer.position = e.data.global;
       circleContainer.alpha = 1;
     });
 
