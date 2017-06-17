@@ -6,7 +6,7 @@ import {Cannon} from '../cannons/cannon';
 export class Bunny extends BaseObject {
 
   public health: number = 100;
-  public speed: number = 1000;
+  public speed: number = 100;
 
   protected textures: Texture = Texture.fromImage(require('./../../../assets/images/bunnys.png'));
 

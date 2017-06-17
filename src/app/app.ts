@@ -14,8 +14,10 @@ export default class App {
 
   public map: TiledMap;
 
-  private WIDTH: number = 1280;
-  private HEIGHT: number = 768;
+  public debug: boolean = false;
+
+  public WIDTH: number = 1280;
+  public HEIGHT: number = 768;
 
   private cannons: Cannon[] = [];
 
@@ -38,7 +40,7 @@ export default class App {
 
     const mapData = require('../../src/assets/map/map.json');
 
-    this.map = new TiledMap(this.app.stage, this.WIDTH, this.HEIGHT, mapData);
+    this.map = new TiledMap(this, mapData);
     this.app.stage.addChild(this.map);
 
     const ui = new UI(this);
@@ -75,12 +77,18 @@ export default class App {
       bunnies = [...bunnies, ...spawn.bunnies];
     });
 
-    for (const cannon of this.cannons) {
-      cannon.update();
-
-      if (bunnies.length) {
+    if (bunnies.length) {
+      for (const cannon of this.cannons) {
+        cannon.update();
         cannon.chooseTarget(bunnies);
       }
+
+      bunnies.forEach((bunny: Bunny) => {
+        if (this.map.destination.rectangle.contains(bunny.centerX, bunny.centerY)) {
+          bunny.hide();
+          this.states.health--;
+        }
+      });
     }
 
     this.states.render();
