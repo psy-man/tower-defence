@@ -7,6 +7,7 @@ import { Tile } from './tile';
 import { Spawn } from './spawn';
 import { Destination } from './destination';
 import { Walkable } from '../core/enums';
+import App from '../app';
 
 
 export class TiledMap extends Container {
@@ -22,10 +23,9 @@ export class TiledMap extends Container {
   pathMap: Polygon = null;
   grid: Grid;
 
-  debug: boolean = true;
   gridDebug: Container = new Container();
 
-  constructor(public stage: Container, public WIDTH: number, public HEIGHT: number, public data) {
+  constructor(public game: App, public data) {
     super();
 
     this.processTilesets();
@@ -34,7 +34,7 @@ export class TiledMap extends Container {
     this.createPathGrid();
     this.calculatePaths();
 
-    if (this.debug) {
+    if (this.game.debug) {
       this.addChild(this.gridDebug);
     }
   }
@@ -69,15 +69,15 @@ export class TiledMap extends Container {
   private createPathGrid() {
     const matrix = [];
 
-    for (let y = 0, dy = 0; y < this.HEIGHT; y += this.tileHeight, dy++) {
+    for (let y = 0, dy = 0; y < this.game.HEIGHT; y += this.tileHeight, dy++) {
       matrix[dy] = [];
-      for (let x = 0, dx = 0; x < this.WIDTH; x += this.tileWidth, dx++) {
+      for (let x = 0, dx = 0; x < this.game.WIDTH; x += this.tileWidth, dx++) {
         const xx = x + this.tileWidth / 2;
         const yy = y + this.tileHeight / 2;
 
         matrix[dy][dx] = this.pathMap.contains(xx, yy) ? Walkable.yes : Walkable.no;
 
-        if (this.debug && matrix[dy][dx] === Walkable.yes) {
+        if (this.game.debug && matrix[dy][dx] === Walkable.yes) {
           const g = new Graphics();
           g.lineStyle(1, 0x000000, 0.2);
           g.drawRect(xx, yy, 1, 1);
@@ -112,7 +112,7 @@ export class TiledMap extends Container {
 
       spawn.pathToDestination = finder.findPath(xx, yy, 42, 22, this.grid.clone());
 
-      if (this.debug) {
+      if (this.game.debug) {
         spawn.pathToDestination.forEach(([x, y]) => {
           const g = new Graphics();
           g.lineStyle(1, 0xFF0000);
@@ -170,14 +170,14 @@ export class TiledMap extends Container {
           break;
         }
         case 'spawn': {
-          const spawn = new Spawn(this, object);
+          const spawn = new Spawn(this.game, object);
 
           this.spawns.push(spawn);
           this.addChild(spawn);
           break;
         }
         case 'destination': {
-          const destination = new Destination(object);
+          const destination = new Destination(this.game, object);
 
           this.destination = destination;
           this.addChild(destination);

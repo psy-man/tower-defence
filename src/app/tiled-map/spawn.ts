@@ -1,10 +1,10 @@
 import { Graphics, Point } from 'pixi.js';
 import { Direction, Position } from '../core/enums';
 import { getCenter } from '../core/helpers';
-import { Bunny } from '../objects/bunnies/bunny';
+import App from '../app';
 
+import { Bunny } from '../objects/bunnies/bunny';
 import { RobotBunny } from '../objects/bunnies/robot-bunny';
-import { TiledMap } from './tiled-map';
 import { BaseObject } from '../objects/base-object';
 
 
@@ -17,18 +17,22 @@ export class Spawn extends BaseObject {
   pathToDestination = [];
   bunnies: Bunny[] = [];
 
-  constructor(public map: TiledMap, private obj) {
+  private speed: number = 400;
+
+  constructor(public game: App, private obj) {
     super();
 
     this.id = obj.id;
     this.dir = Direction[obj.properties.dir as string];
     this.pos = Position[obj.properties.pos as string];
 
-    const graphics = new Graphics();
-    graphics.lineStyle(1, 0xFF0000);
-    graphics.drawRect(obj.x, obj.y, obj.width, obj.height);
+    if (this.game.debug) {
+      const graphics = new Graphics();
+      graphics.lineStyle(1, 0xFF0000);
+      graphics.drawRect(obj.x, obj.y, obj.width, obj.height);
 
-    this.addChild(graphics);
+      this.addChild(graphics);
+    }
   }
 
   update() {
@@ -45,7 +49,7 @@ export class Spawn extends BaseObject {
       this.addBunny();
 
       count--;
-    }, 3000);
+    }, this.speed);
   }
 
   addBunny() {
@@ -76,7 +80,7 @@ export class Spawn extends BaseObject {
     }, bunny.speed);
 
     this.bunnies.push(bunny);
-    this.map.stage.addChild(bunny);
+    this.game.app.stage.addChild(bunny);
   }
 
   get spawnPoint(): Point {

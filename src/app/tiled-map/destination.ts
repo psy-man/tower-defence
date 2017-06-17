@@ -1,19 +1,24 @@
-import { Graphics, Container } from 'pixi.js';
+import { Graphics, Container, Rectangle } from 'pixi.js';
+import App from '../app';
 
 
 export class Destination extends Container {
   id: number;
+  rectangle: Rectangle;
 
-  constructor(private obj) {
+  constructor(public game: App, private obj) {
     super();
 
     this.id = this.obj.id;
+    this.rectangle = new Rectangle(obj.x, obj.y, obj.width, obj.height);
 
-    const graphics = new Graphics();
+    if (this.game.debug) {
+      const graphics = new Graphics();
 
-    graphics.lineStyle(1, 0xFFFFFF);
-    graphics.drawRect(obj.x, obj.y, obj.width, obj.height);
+      graphics.lineStyle(1, 0xFFFFFF);
+      graphics.drawRect(obj.x, obj.y, obj.width, obj.height);
 
-    this.addChild(graphics);
+      this.addChild(graphics);
+    }
   }
 }
