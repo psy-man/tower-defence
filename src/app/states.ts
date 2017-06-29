@@ -2,7 +2,7 @@ import { Text, Container } from 'pixi.js';
 
 export class States extends Container {
 
-  public money: number = 0;
+  public money: number = 20;
   public moneyText: Text;
 
   public health: number = 20;

@@ -5,6 +5,7 @@ import {Cannon} from '../cannons/cannon';
 
 export class Bunny extends BaseObject {
 
+  public price: number = 10;
   public health: number = 100;
   public speed: number = 100;
 

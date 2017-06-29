@@ -42,7 +42,7 @@ export class UI extends Container {
       if (this.adding && this.canBuild) {
         const position: Point = e.data.global;
 
-        const cannon = new SimpleCannon(this.game.app.stage, position.x, position.y);
+        const cannon = new SimpleCannon(this.game, position.x, position.y);
         this.game.addCannon(cannon);
 
         this.adding = false;
@@ -74,5 +74,8 @@ export class UI extends Container {
     });
 
     this.addChild(cannonSimpleButton);
+  }
+
+  render() {
   }
 }

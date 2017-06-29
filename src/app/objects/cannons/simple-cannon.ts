@@ -1,9 +1,11 @@
 import { Graphics, Container } from 'pixi.js';
 import { Cannon } from './cannon';
+import App from '../../app';
 
 
 export class SimpleCannon extends Cannon {
 
+  public price: number = 20;
   public range: number = 200;
 
   public shotsPerSecond: number = 1;
@@ -12,8 +14,10 @@ export class SimpleCannon extends Cannon {
   public damage: number = 2;
   public radius: number = 16;
 
-  constructor(public stage: Container, public posX: number, public posY: number) {
-    super(stage, posX, posY);
+  constructor(public game: App, public posX: number, public posY: number) {
+    super(game, posX, posY);
+
+    this.game.states.money -= this.price;
 
     const cannon = new Container();
 

@@ -4,6 +4,7 @@ import { getDistance, getTargetAngle } from '../../core/helpers';
 import { BaseObject } from '../base-object';
 import { Carrot } from '../ammo/carrot';
 import { Bunny } from '../bunnies/bunny';
+import App from '../../app';
 
 
 export class Cannon extends BaseObject {
@@ -21,7 +22,7 @@ export class Cannon extends BaseObject {
   private target: Bunny = null;
   private timer: any;
 
-  constructor(public stage: Container, public posX: number, public posY: number) {
+  constructor(public game: App, public posX: number, public posY: number) {
     super();
 
     this.x = posX;
@@ -32,7 +33,7 @@ export class Cannon extends BaseObject {
 
   addCarrot(carrot: Carrot) {
     this.carrots.push(carrot);
-    this.stage.addChild(carrot);
+    this.game.app.stage.addChild(carrot);
   }
 
   startShooting(target: Bunny) {

@@ -39,6 +39,8 @@ export class Carrot extends BaseObject {
     if (hitTest(this, this.target)) {
       this.target.hit(this.cannon);
       this.hide();
+
+      this.cannon.game.states.money += this.target.price;
     }
   }
 }

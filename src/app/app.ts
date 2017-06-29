@@ -11,6 +11,7 @@ import { States } from './states';
 export default class App {
   public app: Application;
   public states: States;
+  public ui: UI;
 
   public map: TiledMap;
 
@@ -43,13 +44,13 @@ export default class App {
     this.map = new TiledMap(this, mapData);
     this.app.stage.addChild(this.map);
 
-    const ui = new UI(this);
-    this.app.stage.addChild(ui);
+    this.ui = new UI(this);
+    this.app.stage.addChild(this.ui);
 
     this.states = new States();
     this.app.stage.addChild(this.states);
 
-    this.map.spawns.forEach(s => s.addBunnies(10));
+    [this.map.spawns[0]].forEach(s => s.addBunnies(10));
 
 
     // const cannon = new SimpleCannon(this.app.stage, 515, 247);
@@ -77,12 +78,15 @@ export default class App {
       bunnies = [...bunnies, ...spawn.bunnies];
     });
 
-    if (bunnies.length) {
-      for (const cannon of this.cannons) {
-        cannon.update();
+    for (const cannon of this.cannons) {
+      cannon.update();
+
+      if (bunnies.length) {
         cannon.chooseTarget(bunnies);
       }
+    }
 
+    if (bunnies.length) {
       bunnies.forEach((bunny: Bunny) => {
         if (this.map.destination.rectangle.contains(bunny.centerX, bunny.centerY)) {
           bunny.hide();
@@ -91,6 +95,7 @@ export default class App {
       });
     }
 
+    this.ui.render();
     this.states.render();
   }
 

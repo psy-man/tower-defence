@@ -17,7 +17,7 @@ export class Spawn extends BaseObject {
   pathToDestination = [];
   bunnies: Bunny[] = [];
 
-  private speed: number = 400;
+  private speed: number = 800;
 
   constructor(public game: App, private obj) {
     super();
