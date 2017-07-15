@@ -3,7 +3,7 @@ import { Application } from 'pixi.js';
 import { TiledMap } from './tiled-map/tiled-map';
 import { Bunny } from './objects/bunnies/bunny';
 import { Cannon } from './objects/cannons/cannon';
-// import { SimpleCannon } from './objects/cannons/simple-cannon';
+// import { CannonType1 } from './objects/cannons/simple-cannon';
 import { UI } from './ui/ui';
 import { States } from './states';
 
@@ -53,13 +53,13 @@ export default class App {
     [this.map.spawns[0]].forEach(s => s.addBunnies(10));
 
 
-    // const cannon = new SimpleCannon(this.app.stage, 515, 247);
+    // const cannon = new CannonType1(this.app.stage, 515, 247);
     // this.addCannon(cannon);
     //
-    // const cannon1 = new SimpleCannon(this.app.stage, 932, 225);
+    // const cannon1 = new CannonType1(this.app.stage, 932, 225);
     // this.addCannon(cannon1);
     //
-    // const cannon2 = new SimpleCannon(this.app.stage, 700, 544);
+    // const cannon2 = new CannonType1(this.app.stage, 700, 544);
     // this.addCannon(cannon2);
 
     this.render();
@@ -95,7 +95,7 @@ export default class App {
       });
     }
 
-    this.ui.render();
+    // this.ui.render();
     this.states.render();
   }
 

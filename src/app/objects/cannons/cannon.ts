@@ -8,6 +8,7 @@ import App from '../../app';
 
 
 export class Cannon extends BaseObject {
+  public price: number = 10;
   public range: number = 10;
 
   public active: boolean = false;

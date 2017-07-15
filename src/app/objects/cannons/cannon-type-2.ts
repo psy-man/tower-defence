@@ -3,16 +3,16 @@ import { Cannon } from './cannon';
 import App from '../../app';
 
 
-export class SimpleCannon extends Cannon {
+export class CannonType2 extends Cannon {
 
-  public price: number = 20;
-  public range: number = 200;
+  public price: number = 15;
+  public range: number = 170;
 
   public shotsPerSecond: number = 1;
   public speed: number = 20;
 
   public damage: number = 2;
-  public radius: number = 16;
+  public radius: number = 18;
 
   constructor(public game: App, public posX: number, public posY: number) {
     super(game, posX, posY);
@@ -22,7 +22,7 @@ export class SimpleCannon extends Cannon {
     const cannon = new Container();
 
     const circle = new Graphics();
-    circle.beginFill(0x9966FF);
+    circle.beginFill(0x38FF00);
     circle.drawCircle(0, 0, this.radius);
     circle.endFill();
 
@@ -32,7 +32,7 @@ export class SimpleCannon extends Cannon {
     line.lineTo(25, 1);
 
     const radius = new Graphics();
-    radius.lineStyle(1, 0x9966FF, 0.4);
+    radius.lineStyle(1, 0x38FF00, 0.4);
     radius.drawCircle(0, 0, this.range);
 
     cannon.addChild(circle);
