@@ -44,6 +44,7 @@ module.exports = function (env) {
     devServer: {
       port: 3000,
       open: true,
+      openPage: '',
       stats: {
         assets: false,
         children: false,
