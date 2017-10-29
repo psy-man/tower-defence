@@ -31,6 +31,7 @@ export default class App {
         .add('Outside_A1', require('../../src/assets/images/Outside_A1.png'))
         .add('Outside_A2', require('../../src/assets/images/Outside_A2.png'))
         .add('Outside_B', require('../../src/assets/images/Outside_B.png'))
+        .add('Button', require('../../src/assets/images/Button.png'))
         .load(resolve);
     });
   }
@@ -50,7 +51,7 @@ export default class App {
     this.states = new States();
     this.app.stage.addChild(this.states);
 
-    [this.map.spawns[0]].forEach(s => s.addBunnies(10));
+    // [this.map.spawns[0]].forEach(s => s.addBunnies(10));
 
 
     // const cannon = new CannonType1(this.app.stage, 515, 247);

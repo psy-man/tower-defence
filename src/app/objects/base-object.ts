@@ -29,8 +29,6 @@ export class BaseObject extends Container {
 
     function onDragEnd() {
       this.dragging = false;
-
-      console.log(this.position);
     }
 
     function onDragMove() {

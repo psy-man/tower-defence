@@ -1,85 +1,55 @@
 import { Container, Graphics, Point } from 'pixi.js';
-import { CannonType1 } from '../../objects/cannons/cannon-type-1';
 import { UI } from '../ui';
-import { Cannon } from '../../objects/cannons/cannon';
-import { CannonFactory } from '../../objects/cannons/cannon.factory';
-import { CannonTypes } from '../../objects/cannons/cannon-types.enum';
 
 
 export class Button extends Container {
-  private adding = false;
-  private canBuild: boolean = false;
+  private onClickCallback: (e) => void;
+  private onOverCallback: (e) => void;
+  private onOutCallback: (e) => void;
 
-  constructor(public ui: UI, public x: number, public y: number, public params: {
-    cannonType: CannonTypes,
-    backgroundColor: number,
-    lineColor: number
-  }) {
+  constructor(public ui: UI, public x: number, public y: number) {
     super();
 
-    const cannonSimpleButton = new Graphics();
-    cannonSimpleButton.interactive = true;
-    cannonSimpleButton.buttonMode = true;
-    cannonSimpleButton.beginFill(params.backgroundColor);
-    cannonSimpleButton.lineStyle(2, params.lineColor, 1);
-    cannonSimpleButton.drawRoundedRect(0, 0, 40, 40, 5);
-    cannonSimpleButton.endFill();
+    const button = new Graphics();
+    button.interactive = true;
+    button.buttonMode = true;
 
-    const circleContainer = new Container();
+    button.beginFill(0x9966FF);
+    button.lineStyle(2, 0xFF00FF, 1);
+    button.drawRoundedRect(0, 0, 40, 40, 5);
+    button.endFill();
 
-    const circle = new Graphics();
-    circle.interactive = true;
-    circle.buttonMode = true;
-    circle.lineStyle(2, params.lineColor, 1);
-    circle.drawCircle(0, 0, 30);
-    circle.endFill();
+    button
+      .on('pointerup', e => {
+        e.stopPropagation();
 
-    // circleContainer.position.set(300, 200);
-    circleContainer.alpha = 0;
+        this.onClickCallback(e);
+      })
+      .on('pointerover', e => {
+        e.stopPropagation();
 
-    this.addChild(circle);
+        this.onOverCallback(e);
+      })
+      .on('pointerout', e => {
+        e.stopPropagation();
 
-    const onMouseMove = e => {
-      circleContainer.position = e.data.global;
-
-      this.canBuild = this.ui.game.map.pathMap.contains(circleContainer.x, circleContainer.y);
-
-      circleContainer.alpha = this.canBuild ? 1 : 0.3;
-    };
-
-    this.ui.game.app.stage.on('pointerdown', e => {
-      if (this.adding && this.canBuild) {
-        const position: Point = e.data.global;
+        this.onOutCallback(e);
+      });
 
 
-        const cannon = new CannonFactory(this.params.cannonType, this.ui.game, position.x, position.y);
-        this.ui.game.addCannon(cannon);
-
-        this.adding = false;
-        cannonSimpleButton.alpha = 1;
-
-        this.ui.game.app.stage.off('mousemove', onMouseMove);
-        circleContainer.alpha = 0;
-      }
-    });
-
-    cannonSimpleButton.on('pointerdown', e => {
-      e.stopPropagation();
-      console.log(1);
-
-      cannonSimpleButton.alpha = 0.6;
-      this.adding = true;
-
-      this.ui.game.app.stage.on('mousemove', onMouseMove);
-
-      circleContainer.position = e.data.global;
-      circleContainer.alpha = 1;
-    });
-
-    this.addChild(cannonSimpleButton);
+    this.addChild(button);
   }
 
-  onClick(callback: () => void) {
-    callback();
+  onClick(onClickCallback: (e) => void) {
+    this.onClickCallback = onClickCallback;
+
+    return this;
+  }
+
+  onHover(onOverCallback: (e?) => void, onOutCallback: (e?) => void) {
+    this.onOverCallback = onOverCallback;
+    this.onOutCallback = onOutCallback;
+
+    return this;
   }
 }
