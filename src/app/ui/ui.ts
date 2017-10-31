@@ -1,6 +1,5 @@
-import { Application, Container, Graphics, Point } from 'pixi.js';
+import { Application, Container, Graphics, Point, Sprite, utils } from 'pixi.js';
 import { Button } from './buttons/button';
-import { CannonTypes } from '../objects/cannons/cannon-types.enum';
 
 
 export class UI extends Container {
