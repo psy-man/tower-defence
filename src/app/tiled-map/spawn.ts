@@ -1,5 +1,4 @@
 import { Graphics, Point } from 'pixi.js';
-import { Direction, Position } from '../core/enums';
 import { getCenter } from '../core/helpers';
 import App from '../app';
 
@@ -9,31 +8,80 @@ import { BaseObject } from '../objects/base-object';
 
 
 export class Spawn extends BaseObject {
-  id: number;
-
-  dir: Direction;
-  pos: Position;
-
   pathToDestination = [];
   bunnies: Bunny[] = [];
 
-  private speed: number = 800;
+  private speed: number = 1000;
 
-  constructor(public game: App, private obj) {
+  constructor(public game: App, private data, private path) {
     super();
-
-    this.id = obj.id;
-    this.dir = Direction[obj.properties.dir as string];
-    this.pos = Position[obj.properties.pos as string];
 
     if (this.game.debug) {
       const graphics = new Graphics();
       graphics.lineStyle(1, 0xFF0000);
-      graphics.drawRect(obj.x, obj.y, obj.width, obj.height);
+      graphics.drawRect(data.x, data.y, data.width, data.height);
 
       this.addChild(graphics);
     }
+
+    const {polyline: pathData, x: offsetX, y: offsetY} = path;
+
+    for (let i = 1; i < pathData.length; i += 1) {
+      const {x: x0, y: y0} = this.normalizePoint(pathData[i - 1], {offsetX, offsetY});
+      const {x: x1, y: y1} = this.normalizePoint(pathData[i], {offsetX, offsetY});
+
+      const graphics = new Graphics();
+      graphics.lineStyle(1, 0xFF00FF);
+      graphics.drawRect(x0, y0, 5, 5);
+      this.addChild(graphics);
+
+      const points = this.getLine([x0, y0], [x1, y1]);
+
+      for (const [x, y] of points) {
+        const graphics = new Graphics();
+        graphics.lineStyle(1, 0xFF0000);
+        graphics.drawRect(x, y, 1, 1);
+        this.addChild(graphics);
+      }
+
+      this.pathToDestination.push(...points);
+    }
   }
+
+  normalizePoint({x, y}, {offsetX, offsetY}) {
+    return {
+      x: x + offsetX,
+      y: y + offsetY
+    };
+  }
+
+  getLine([x1, y1], [x2, y2]) {
+    let q1 = x1;
+    let q2 = y2;
+
+    let x = x2 - x1;
+    let y = y2 - y1;
+
+    const max = Math.max(Math.abs(x), Math.abs(y));
+
+    x /= max;
+    y /= max;
+
+    const points = [];
+
+    for (let i = 0; i < max; i += 1) {
+      q1 += x;
+      q2 += -y;
+
+      points.push([q1, q2]);
+    }
+
+    if (Math.abs(y2 - y1) > 10) {
+      return points.reverse();
+    }
+
+    return points;
+  };
 
   update() {
     this.bunnies = this.bunnies.filter(b => b.alpha > 0);
@@ -55,7 +103,7 @@ export class Spawn extends BaseObject {
   addBunny() {
     const [x, y] = this.pathToDestination[0];
 
-    const bunny = new RobotBunny(x * 16 + 8, y * 16 + 8);
+    const bunny = new RobotBunny(x, y);
 
     bunny.x -= bunny.width / 2;
     bunny.y -= bunny.height / 2;
@@ -66,13 +114,14 @@ export class Spawn extends BaseObject {
     const timer = setInterval(() => {
       if (!this.pathToDestination[pos]) {
         clearInterval(timer);
+        bunny.visible = false;
         return false;
       }
 
       const [x, y] = this.pathToDestination[pos];
 
-      bunny.x = (x * 16 + 8) - bunny.width / 2;
-      bunny.y = (y * 16 + 8) - bunny.height / 2;
+      bunny.x = x - bunny.width / 2;
+      bunny.y = y - bunny.height / 2;
 
       pos++;
       bunny.visible = true;
@@ -84,8 +133,8 @@ export class Spawn extends BaseObject {
   }
 
   get spawnPoint(): Point {
-    const x = Math.round(getCenter(this.obj.x, this.obj.width));
-    const y = Math.round(getCenter(this.obj.y, this.obj.height));
+    const x = Math.round(getCenter(this.data.x, this.data.width));
+    const y = Math.round(getCenter(this.data.y, this.data.height));
 
     return new Point(x, y);
   }

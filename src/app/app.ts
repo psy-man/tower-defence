@@ -1,11 +1,12 @@
-import { Application } from 'pixi.js';
+import { Application, Graphics } from 'pixi.js';
 
 import { TiledMap } from './tiled-map/tiled-map';
 import { Bunny } from './objects/bunnies/bunny';
 import { Cannon } from './objects/cannons/cannon';
-// import { CannonType1 } from './objects/cannons/simple-cannon';
 import { UI } from './ui/ui';
 import { States } from './states';
+import { CannonType1 } from './objects/cannons/cannon-type-1';
+import { RobotBunny } from './objects/bunnies/robot-bunny';
 
 
 export default class App {
@@ -15,7 +16,7 @@ export default class App {
 
   public map: TiledMap;
 
-  public debug: boolean = false;
+  public debug: boolean = true;
 
   public WIDTH: number = 1280;
   public HEIGHT: number = 768;
@@ -28,9 +29,7 @@ export default class App {
 
     return new Promise(resolve => {
       PIXI.loader
-        .add('Outside_A1', require('../../src/assets/images/Outside_A1.png'))
-        .add('Outside_A2', require('../../src/assets/images/Outside_A2.png'))
-        .add('Outside_B', require('../../src/assets/images/Outside_B.png'))
+        .add('tileset', require('../../src/assets/images/tile-set.png'))
         .add('Button', require('../../src/assets/images/Button.png'))
         .load(resolve);
     });
@@ -42,23 +41,25 @@ export default class App {
 
     const mapData = require('../../src/assets/map/map.json');
 
+    console.log(mapData);
+
     this.map = new TiledMap(this, mapData);
     this.app.stage.addChild(this.map);
 
-    this.ui = new UI(this);
-    this.app.stage.addChild(this.ui);
-
+    // this.ui = new UI(this);
+    // this.app.stage.addChild(this.ui);
+    //
     this.states = new States();
     this.app.stage.addChild(this.states);
 
-    // [this.map.spawns[0]].forEach(s => s.addBunnies(10));
+    this.map.spawn.addBunnies(20);
 
 
-    // const cannon = new CannonType1(this.app.stage, 515, 247);
-    // this.addCannon(cannon);
-    //
-    // const cannon1 = new CannonType1(this.app.stage, 932, 225);
-    // this.addCannon(cannon1);
+    const cannon = new CannonType1(this, 286, 354);
+    this.addCannon(cannon);
+
+    const cannon1 = new CannonType1(this, 930, 530);
+    this.addCannon(cannon1);
     //
     // const cannon2 = new CannonType1(this.app.stage, 700, 544);
     // this.addCannon(cannon2);
@@ -71,33 +72,27 @@ export default class App {
       this.render();
     });
 
-    let bunnies: Bunny[] = [];
-
-    this.map.spawns.forEach(spawn => {
-      spawn.update();
-
-      bunnies = [...bunnies, ...spawn.bunnies];
-    });
+    this.map.spawn.update();
 
     for (const cannon of this.cannons) {
       cannon.update();
 
-      if (bunnies.length) {
-        cannon.chooseTarget(bunnies);
+      if (this.map.spawn.bunnies.length) {
+        cannon.chooseTarget(this.map.spawn.bunnies);
       }
     }
 
-    if (bunnies.length) {
-      bunnies.forEach((bunny: Bunny) => {
-        if (this.map.destination.rectangle.contains(bunny.centerX, bunny.centerY)) {
-          bunny.hide();
-          this.states.health--;
-        }
-      });
-    }
+    // if (this.map.spawn.bunnies.length) {
+    //   this.map.spawn.bunnies.forEach((bunny: Bunny) => {
+    //     if (this.map.destination.rectangle.contains(bunny.centerX, bunny.centerY)) {
+    //       bunny.hide();
+    //       this.states.health--;
+    //     }
+    //   });
+    // }
 
     // this.ui.render();
-    this.states.render();
+    // this.states.render();
   }
 
   private addCannon(cannon: Cannon) {

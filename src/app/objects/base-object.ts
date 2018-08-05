@@ -34,6 +34,7 @@ export class BaseObject extends Container {
     function onDragMove() {
       if (this.dragging) {
         const newPosition = this.data.getLocalPosition(this.parent);
+        console.log(newPosition);
 
         this.position.x = centered ? newPosition.x : newPosition.x - this.width / 2;
         this.position.y = centered ? newPosition.y : newPosition.y - this.height / 2;

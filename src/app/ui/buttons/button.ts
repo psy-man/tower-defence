@@ -1,4 +1,4 @@
-import { Container, Graphics, Point, Sprite, Texture, utils } from 'pixi.js';
+import { Container, Point, Sprite, Texture, utils } from 'pixi.js';
 
 
 export class Button extends Sprite {
