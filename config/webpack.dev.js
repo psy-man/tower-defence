@@ -1,14 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
-
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 
 
 module.exports = function (env) {
   return webpackMerge(commonConfig, {
+    mode: 'development',
+
+    devtool: 'eval-source-map',
+
     module: {
       rules: [
         {
@@ -29,17 +31,11 @@ module.exports = function (env) {
     },
 
     plugins: [
-      new webpack.DllReferencePlugin({
-        context: path.join(__dirname, '..', 'src'),
-        manifest: require('../dll/vendor-manifest.json')
-      }),
-
-      new AddAssetHtmlPlugin({
-        filepath: require.resolve('../dll/vendor.dll.js')
-      })
+      // new webpack.DllReferencePlugin({
+      //   context: path.join(__dirname, '..', 'src'),
+      //   manifest: require('../dll/vendor-manifest.json')
+      // }),
     ],
-
-    devtool: 'eval-source-map',
 
     devServer: {
       port: 3000,

@@ -32,7 +32,8 @@ export class Cannon extends BaseObject {
     this.initDraggable(true);
   }
 
-  addCarrot(carrot: Carrot) {
+  addCarrot() {
+    const carrot = new Carrot(this, this.target);
     this.carrots.push(carrot);
     this.game.app.stage.addChild(carrot);
   }
@@ -44,9 +45,10 @@ export class Cannon extends BaseObject {
     if (!this.active) {
       this.active = true;
 
+      this.addCarrot();
+
       this.timer = setInterval(() => {
-        const carrot = new Carrot(this, this.target);
-        this.addCarrot(carrot);
+        this.addCarrot();
       }, 1000 / this.shotsPerSecond);
     }
   }

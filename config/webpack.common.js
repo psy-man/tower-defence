@@ -1,10 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const NotifierPlugin = require('webpack-notifier');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 const conf = require('./conf');
 
 module.exports = {
@@ -22,6 +17,7 @@ module.exports = {
         loader: 'awesome-typescript-loader'
       },
       {
+        type: 'javascript/auto',
         test: /.json$/,
         use: 'json-loader'
       },
@@ -36,17 +32,21 @@ module.exports = {
     ]
   },
 
+  optimization: {
+    namedModules: true,
+    splitChunks: {
+      name: 'vendor',
+      minChunks: 2
+    },
+    noEmitOnErrors: true,
+    concatenateModules: true,
+    occurrenceOrder: true
+  },
+
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.NoEmitOnErrorsPlugin(),
-
-    new NotifierPlugin(),
-
-    new ExtractTextPlugin('styles.css'),
-
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.resolve(__dirname, '../src/index.html')
+      template: path.resolve(__dirname, '../src/index.html'),
     }),
   ]
 };

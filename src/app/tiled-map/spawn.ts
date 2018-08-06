@@ -81,7 +81,7 @@ export class Spawn extends BaseObject {
     }
 
     return points;
-  };
+  }
 
   update() {
     this.bunnies = this.bunnies.filter(b => b.alpha > 0);
