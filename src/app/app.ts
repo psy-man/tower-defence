@@ -37,7 +37,6 @@ export default class App {
 
   bootstrap() {
     this.createScene();
-    this.initEvents();
 
     const mapData = require('../../src/assets/map/map.json');
 
@@ -105,9 +104,5 @@ export default class App {
     this.app.stage.interactive = true;
 
     document.body.appendChild(this.app.view);
-  }
-
-  private initEvents() {
-    console.log('events');
   }
 }

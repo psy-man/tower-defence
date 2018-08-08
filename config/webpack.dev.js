@@ -30,13 +30,6 @@ module.exports = function (env) {
       ]
     },
 
-    plugins: [
-      // new webpack.DllReferencePlugin({
-      //   context: path.join(__dirname, '..', 'src'),
-      //   manifest: require('../dll/vendor-manifest.json')
-      // }),
-    ],
-
     devServer: {
       port: 3000,
       open: true,

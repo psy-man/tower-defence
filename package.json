@@ -1,14 +1,11 @@
 {
-  "name": "bunnies-apocalypse",
-  "version": "0.0.1",
+  "name": "tower-defence",
+  "version": "0.1.0",
   "scripts": {
     "clean:dist": "rimraf dist",
-    "clean:dll": "rimraf dll",
-    "dll": "npm run clean:dll && webpack --config config/webpack.dll.js",
-    "postinstall": "npm run dll",
-    "serve": "webpack-dev-server --inline --colors",
+    "serve": "webpack-dev-server --inline --colors -p --progress --mode development",
     "start": "npm run dll && npm run serve",
-    "build": "export NODE_ENV=prod && npm run clean:dist && webpack"
+    "build": "export NODE_ENV=prod && npm run clean:dist && webpack -p --progress --mode production"
   },
   "devDependencies": {
     "@types/node": "^7.0.5",
@@ -28,6 +25,7 @@
     "tslint-loader": "^3.6.0",
     "typescript": "3.0.1",
     "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5",
     "webpack-merge": "^4.1.4",
     "webpack-notifier": "^1.6.0"
@@ -35,7 +33,6 @@
   "dependencies": {
     "moment": "^2.17.1",
     "pathfinding": "^0.4.18",
-    "pixi.js": "^4.8.1",
-    "webpack-cli": "^3.1.0"
+    "pixi.js": "^4.8.1"
   }
 }

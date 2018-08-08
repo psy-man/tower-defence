@@ -2,8 +2,7 @@ const path = require('path');
 
 exports.paths = {
   src: path.resolve(__dirname, '..', 'src'),
-  dist: path.resolve(__dirname, '..', 'dist'),
-  dll: path.resolve(__dirname, '..', 'dll'),
+  dist: path.resolve(__dirname, '..', 'docs')
 };
 
 exports.path = {};
